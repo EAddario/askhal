@@ -1,11 +1,9 @@
-const { log } = require('./util');
+const { program } = require('commander');
+const { log, checkAPIKey } = require('./util');
 const { readFile } = require('./processContextFile');
 const { queryAI } = require('./queryOpenRouterAI');
 
-if (!process.env['OPENROUTER_API_KEY']) {
-    log.error("Error: OpenRouter API Key not defined in environment variable. Program terminated.");
-    process.exit(1);
-}
+checkAPIKey('OPENROUTER_API_KEY');
 
 /**
  * Main function
