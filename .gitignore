@@ -1,0 +1,585 @@
+# https://github.com/github/gitignore
+
+# -------------
+# General Linux
+# -------------
+.directory
+.fuse_hidden*
+.nfs*
+.Trash-*
+*~
+
+# -----------
+# General OSX
+# -----------
+._*
+.apdisk
+.AppleDB
+.AppleDesktop
+.AppleDouble
+.com.apple.timemachine.donotpresent
+.DocumentRevisions-V100
+.DS_Store
+.fseventsd
+.LSOverride
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+Network Trash Folder
+Temporary Items
+
+# ---------------
+# General Windows
+# ---------------
+[Dd]esktop.ini
+*.cab
+*.lnk
+*.msi
+*.msix
+*.msm
+*.msp
+*.stackdump
+$RECYCLE.BIN/
+ehthumbs_vista.db
+ehthumbs.db
+Thumbs.db
+Thumbs.db:encryptable
+
+# -----------------
+# General JetBrains
+# -----------------
+.idea_modules/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ---------------
+# General VS Code
+# ---------------
+!.vscode/*.code-snippets
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.history/
+.vscode/
+*.vsix
+
+# ---------------------
+# General Visual Studio
+# ---------------------
+__pycache__/
+_NCrunch_*
+_pkginfo.txt
+_Pvt_Extensions
+_ReSharper*/
+_TeamCity*
+_UpgradeReport_Files/
+!?*.[Cc]ache/
+!.vscode/extensions.json
+!**/[Pp]ackages/build/
+.*crunch*.local.xml
+.builds
+.cr/personal
+.fake/
+.ionide/
+.localhistory/
+.mfractor/
+.ntvs_analysis.dat
+.paket/paket.exe
+.sass-cache/
+.vs/
+.vscode/*
+.vshistory/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]in/
+[Bb]uild[Ll]og.*
+[Dd]ebug/
+[Dd]ebugPS/
+[Dd]ebugPublic/
+[Ee]xpress/
+[Ll]og/
+[Ll]ogs/
+[Oo]bj/
+[Rr]elease/
+[Rr]eleasePS/
+[Rr]eleases/
+[Tt]est[Rr]esult*/
+[Ww][Ii][Nn]32/
+*_h.h
+*_i.c
+*_p.c
+*_wpftmp.csproj
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
+*- [Bb]ackup.rdl
+*.[Cc]ache
+*.[Pp]ublish.xml
+*.[Rr]e[Ss]harper
+*.appx
+*.appxbundle
+*.appxupload
+*.aps
+*.azurePubxml
+*.bim_*.settings
+*.bim.layout
+*.binlog
+*.btm.cs
+*.btp.cs
+*.build.csdef
+*.cachefile
+*.code-workspace
+*.coverage
+*.coveragexml
+*.dbmdl
+*.dbproj.schemaview
+*.dotCover
+*.DotSettings.user
+*.dsp
+*.dsw
+*.e2e
+*.GhostDoc.xml
+*.gpState
+*.ilk
+*.iobj
+*.ipdb
+*.jfm
+*.jmconfig
+*.ldf
+*.log
+*.mdf
+*.meta
+*.mm.*
+*.ncb
+*.ndf
+*.nuget.props
+*.nuget.targets
+*.nupkg
+*.nvuser
+*.obj
+*.odx.cs
+*.opendb
+*.opensdf
+*.opt
+*.pch
+*.pdb
+*.pfx
+*.pgc
+*.pgd
+*.pidb
+*.plg
+*.psess
+*.publishproj
+*.publishsettings
+*.pubxml
+*.pyc
+*.rdl.data
+*.rptproj.bak
+*.rptproj.rsuser
+*.rsp
+*.rsuser
+*.sap
+*.sbr
+*.scc
+*.sdf
+*.sln.docstates
+*.sln.iml
+*.snupkg
+*.suo
+*.svclog
+*.tlb
+*.tlh
+*.tli
+*.tlog
+*.tmp
+*.tmp_proj
+*.tss
+*.user
+*.userosscache
+*.userprefs
+*.vbp
+*.vbw
+*.VC.db
+*.VC.VC.opendb
+*.VisualState.xml
+*.vsp
+*.vspscc
+*.vspx
+*.vssscc
+*.xsd.cs
+**/[Pp]ackages/*
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.HTMLClient/GeneratedArtifacts
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+~$*
+$tf/
+AppPackages/
+artifacts/
+ASALocalRun/
+AutoTest.Net/
+Backup*/
+BenchmarkDotNet.Artifacts/
+bld/
+BundleArtifacts/
+ClientBin/
+coverage*.info
+coverage*.json
+coverage*.xml
+csx/
+dlldata.c
+DocProject/buildhelp/
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/*.HxC
+DocProject/Help/*.HxT
+DocProject/Help/html
+DocProject/Help/Html2
+ecf/
+FakesAssemblies/
+FodyWeavers.xsd
+Generated_Code/
+healthchecksdb
+ipch/
+MigrationBackup/
+mono_crash.*
+nCrunchTemp_*
+node_modules/
+nunit-*.xml
+OpenCover/
+orleans.codegen.cs
+Package.StoreAssociation.xml
+paket-files/
+project.fragment.lock.json
+project.lock.json
+publish/
+PublishScripts/
+rcf/
+ScaffoldingReadMe.txt
+ServiceFabricBackup/
+StyleCopReport.xml
+TestResult.xml
+UpgradeLog*.htm
+UpgradeLog*.XML
+x64/
+x86/
+
+# ----------------------
+# General Archived Files
+# ----------------------
+*.7z
+*.bz2
+*.bzip
+*.bzip2
+*.deb
+*.dmg
+*.egg
+*.gem
+*.gz
+*.gzip
+*.iso
+*.jar
+*.lzma
+*.rar
+*.rpm
+*.tar
+*.tgz
+*.txz
+*.tzst
+*.xar
+*.xpi
+*.xz
+*.zip
+*.zst
+
+# -----
+# C/C++
+# -----
+.tmp_versions/
+*.a
+*.app
+*.cmd
+*.d
+*.dll
+*.dSYM/
+*.dylib
+*.elf
+*.exe
+*.exp
+*.gch
+*.hex
+*.i*86
+*.idb
+*.ko
+*.la
+*.lai
+*.lib
+*.lo
+*.map
+*.mod*
+*.o
+*.out
+*.slo
+*.so
+*.so.*
+*.su
+*.x86_64
+dkms.conf
+Mkfile.old
+Module.symvers
+modules.order
+
+# ----
+# CUDA
+# ----
+*.cubin
+*.fatbin
+*.gpu
+*.i
+*.ii
+*.ptx
+
+# --
+# Go
+# --
+.env
+*.exe~
+*.test
+go.work
+go.work.sum
+
+# ----
+# Java
+# ----
+*.class
+*.ctxt
+*.ear
+*.hprof
+*.nar
+*.tar.gz
+*.war
+hs_err_pid*
+replay_pid*
+
+# -----
+# Julia
+# -----
+*.jl.*.cov
+*.jl.cov
+*.jl.mem
+deps/build.log
+deps/deps.jl
+deps/downloads/
+deps/src/
+deps/usr/
+docs/build/
+docs/site/
+Manifest.toml
+
+# ------------------------------
+# JavaScript / Node / TypeScript
+# ------------------------------
+.cache
+.cache/
+.docusaurus
+.dynamodb/
+.env.development.local
+.env.local
+.env.production.local
+.env.test.local
+.eslintcache
+.fusebox/
+.grunt
+.lock-wscript
+.next
+.node_repl_history
+.npm
+.nuxt
+.nyc_output
+.parcel-cache
+.pnp.*
+.pnpm-debug.log*
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.serverless/
+.stylelintcache
+.temp
+.tern-port
+.vscode-test
+.vuepress/dist
+.yarn-integrity
+.yarn/build-state.yml
+.yarn/cache
+.yarn/install-state.gz
+.yarn/unplugged
+*.lcov
+*.pid
+*.pid.lock
+*.seed
+*.tsbuildinfo
+bower_components
+dist
+jspm_packages/
+lerna-debug.log*
+lib-cov
+logs
+npm-debug.log*
+out
+pids
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+web_modules/
+yarn-debug.log*
+yarn-error.log*
+
+# ------
+# Python
+# ------
+__pypackages__/
+.coverage
+.coverage.*
+.dmypy.json
+.eggs/
+.hypothesis/
+.installed.cfg
+.ipynb_checkpoints
+.mypy_cache/
+.nox/
+.pdm-build/
+.pdm-python
+.pdm.toml
+.pybuilder/
+.pyre/
+.pytest_cache/
+.Python
+.python-version
+.pytype/
+.ropeproject
+.scrapy
+.spyderproject
+.spyproject
+.tox/
+.venv
+.webassets-cache
+*.cover
+*.egg-info/
+*.manifest
+*.mo
+*.pot
+*.py,cover
+*.py[cod]
+*.sage.py
+*.spec
+*$py.class
+/site
+build/
+celerybeat-schedule
+celerybeat.pid
+cover/
+coverage.xml
+cython_debug/
+db.sqlite3
+db.sqlite3-journal
+develop-eggs/
+dist/
+dmypy.json
+docs/_build/
+downloads/
+eggs/
+env.bak/
+env/
+htmlcov/
+instance/
+ipython_config.py
+lib/
+lib64/
+local_settings.py
+MANIFEST
+nosetests.xml
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+profile_default/
+sdist/
+share/python-wheels/
+target/
+var/
+venv.bak/
+venv/
+wheels/
+
+# ----
+# Rust
+# ----
+**/*.rs.bk
+Cargo.lock
+debug/
+
+# -----
+# Scala
+# -----
+
+# -----
+# CMake
+# -----
+_deps
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+CMakeLists.txt.user
+CMakeScripts
+CMakeUserPresets.json
+compile_commands.json
+CTestTestfile.cmake
+install_manifest.txt
+Makefile
+Testing
+
+# ------
+# Gradle
+# ------
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+!src/**/build/
+.classpath
+.gradle
+.gradletasknamecache
+.project
+**/build/
+gradle-app.setting
+
+# -----
+# Maven
+# -----
+.mvn/
+buildNumber.properties
+dependency-reduced-pom.xml
+pom.xml.next
+pom.xml.releaseBackup
+pom.xml.tag
+pom.xml.versionsBackup
+release.properties
+
+# ---------
+# Terraform
+# ---------
+.terraform.tfstate.lock.info
+.terraform/
+.terraformrc
+*_override.tf
+*_override.tf.json
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.*.log
+crash.log
+override.tf
+override.tf.json
+terraform.rc
