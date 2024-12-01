@@ -1,6 +1,7 @@
 const openAI = require('openai');
 const wrap = require('word-wrap');
 const chalk = require('chalk');
+const { TEMPERATURE, TOP_K, TOP_P, FREQUENCY_PENALTY, PRESENCE_PENALTY, REPETITION_PENALTY} = require('./config');
 const { log } = require('./util');
 
 const client = new openAI({
@@ -14,20 +15,21 @@ const client = new openAI({
  * @param {string} systemMessage - System context message
  * @param {string} userPrompt - User query prompt
  * @param {boolean} outputStream - Whether to stream the output
+ * @param {object} aiParameters - AI fine-tuning parameters
  * @returns {Promise<void>}
  * @throws {Error} When AI query fails
  */
-async function queryAI(aiModelName, systemMessage, userPrompt, outputStream) {
+async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, aiParameters) {
     try {
         const result = await client.chat.completions.create({
             model: aiModelName,
             stream: outputStream,
-            // temperature: TEMPERATURE,
-            // top_p: TOP_P,
-            // top_k: TOP_K,
-            // frequency_penalty: FREQUENCY_PENALTY,
-            // presence_penalty: PRESENCE_PENALTY,
-            // repetition_penalty: REPETITION_PENALTY,
+            temperature: aiParameters.TEMPERATURE || TEMPERATURE,
+            top_p: aiParameters.TOP_P || TOP_P,
+            top_k: aiParameters.TOP_K || TOP_K,
+            frequency_penalty: aiParameters.FREQUENCY_PENALTY || FREQUENCY_PENALTY,
+            presence_penalty: aiParameters.PRESENCE_PENALTY || PRESENCE_PENALTY,
+            repetition_penalty: aiParameters.REPETITION_PENALTY || REPETITION_PENALTY,
             messages: [
                 { "role": "system", "content": systemMessage },
                 { "role": "user", "content": userPrompt }
