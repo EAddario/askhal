@@ -1,0 +1,20 @@
+{
+  "type": "commonjs",
+  "name": "askhal",
+  "version": "0.8.0",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node askhal.js"
+  },
+  "keywords": [],
+  "author": "Ed Addario",
+  "license": "MIT",
+  "description": "Ask HAL is a program to query arbitrary AI models available in OpenRouter.",
+  "dependencies": {
+    "openai": "^4.73.1",
+    "officeparser": "^5.1.1",
+    "chalk": "^4.1.2",
+    "word-wrap": "^1.2.5"
+  }
+}
