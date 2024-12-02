@@ -17,7 +17,7 @@ const { log } = require('./util');
 async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, apiKey, aiParameters) {
     const client = new openAI({
         baseURL: 'https://openrouter.ai/api/v1',
-        apiKey: process.env['OPENROUTER_API_KEY']
+        apiKey: apiKey
     });
 
     try {
@@ -53,4 +53,4 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
     }
 }
 
-module.exports = { checkAPIKey, queryAI };
+module.exports = { queryAI };
