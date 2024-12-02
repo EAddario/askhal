@@ -11,9 +11,9 @@ const packageInfo = require("./package.json");
  */
 const log = {
     info: (msg) => console.log(chalk.yellowBright(msg)),
-    error: (msg) => console.error(chalk.redBright(msg)),
+    message: (msg) => console.log(chalk.cyanBright(msg)),
     success: (msg) => console.log(chalk.greenBright(msg)),
-    message: (msg) => console.log(chalk.cyanBright(msg))
+    error: (msg) => console.error(chalk.redBright(msg))
 };
 
 /**
