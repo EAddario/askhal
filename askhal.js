@@ -9,7 +9,6 @@ const { queryAI } = require('./queryOpenRouterAI');
  */
 async function main() {
     const program = processCLIArguments();
-
     const aiModelName = program.opts().model;
     const contextFilePath = program.opts().context;
     let systemPrompt = program.opts().system;
