@@ -58,13 +58,13 @@ function processCLIArguments() {
         .name('askhal')
         .description(`Ask HAL  - Query AI models available in OpenRouter (https://openrouter.ai/)\n
            IMPORTANT: The program requires a valid OpenRouter API key to work.
-           The API key can be set as an environment variable named OPENROUTER_API_KEY (preferred),
-           or provided as a command line argument using the -k or --key option`)
+           The API key can be set as an environment variable named OPENROUTER_API_KEY (preferred), or provided as a command
+           line argument using the -k or --key option. If both are set, the command line argument will take precedence.`)
         .version(packageInfo.version, '-v, --version', "displays the program's version")
         .usage('--model <name> --user <prompt> [options]')
-        .requiredOption('-m, --model <name>', 'name of the OpenRouter AI model to use (required)', 'openchat/openchat-7b:free') // openrouter/auto
-        .requiredOption('-u, --user <prompt>', 'user prompt (required)', "What's the meaning of life?")
-        .option('-s, --system <prompt>', "instructions to guide the model's behavior, set the tone, or specify the desired output", 'You are a philosopher who always answers in riddles.')
+        .requiredOption('-m, --model <name>', 'name of the OpenRouter AI model to use (required)') // openrouter/auto
+        .requiredOption('-u, --user <prompt>', 'user prompt (required)')
+        .option('-s, --system <prompt>', "instructions to guide the model's behavior, set the tone, or specify the desired output")
         .option('-c, --context <file>', "location of a file with additional context. It will be appended at the end of the system's prompt")
         .option('-t, --type <extension>', 'context file type (docx, odt, odp, ods, pdf, pptx, txt, xlsx)', 'txt')
         .option('-r, --responsive', "when set, it will stream the model's output as it's generated instead of waiting to display all at once", false)
