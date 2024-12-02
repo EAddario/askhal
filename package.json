@@ -1,7 +1,7 @@
 {
   "type": "commonjs",
   "name": "askhal",
-  "version": "0.8.0",
+  "version": "0.8.12",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,6 +15,7 @@
     "openai": "^4.73.1",
     "officeparser": "^5.1.1",
     "chalk": "^4.1.2",
-    "word-wrap": "^1.2.5"
+    "word-wrap": "^1.2.5",
+    "commander": "^12.1.0"
   }
 }
