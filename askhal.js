@@ -1,7 +1,7 @@
 const { program } = require('commander');
-const { log } = require('./util');
+const { checkAPIKey, log, processCLIArguments } = require('./util');
 const { readFile } = require('./processContextFile');
-const { checkAPIKey, queryAI } = require('./queryOpenRouterAI');
+const { queryAI } = require('./queryOpenRouterAI');
 
 /**
  * Main function

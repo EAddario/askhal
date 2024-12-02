@@ -15,3 +15,13 @@ const log = {
 };
 
 module.exports = { log };
+/**
+ * Check if API Key is defined, otherwise terminate the program
+ * @param {string} env – Required API Key to proceed
+ */
+function checkAPIKey(env) {
+    if (!process.env[env]) {
+        log.error("OpenRouter API Key not defined in environment variable. Program terminated.");
+        process.exit(1);
+    }
+}
