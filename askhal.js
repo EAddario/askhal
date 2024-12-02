@@ -1,42 +1,46 @@
-const { program } = require('commander');
 const { checkAPIKey, log, processCLIArguments } = require('./util');
 const { readFile } = require('./processContextFile');
 const { queryAI } = require('./queryOpenRouterAI');
 
 /**
  * Main function
- * @param {string} aiModelName - Name of the AI model to use
- * @param {string} inputFilePath - Path to the input file
- * @param {string} inputFileType - Type of the input file
- * @param {boolean} outputStream - Whether to stream the output
  * @returns {Promise<void>}
  * @throws {Error} When file reading or AI query fails
  */
-async function main(aiModelName, contextFilePath, contextFileType, streamOutput, aiParameters) {
-    checkAPIKey('OPENROUTER_API_KEY');
-    try {
-        const context = await readFile(inputFilePath, inputFileType);
-        let systemMessage = `You are an experienced developer tasked with code reviewing the following program: ${context}`;
-        let userPrompt =    "Generate a joke that relates to the program above";
+async function main() {
+    const program = processCLIArguments();
 
-        await queryAI(aiModelName, systemMessage, userPrompt, outputStream, aiParameters);
+    const aiModelName = program.opts().model;
+    const contextFilePath = program.opts().context;
+    let systemPrompt = program.opts().system;
+    const userPrompt = program.opts().user;
+    const contextFileType = program.opts().type;
+    const streamOutput = program.opts().responsive;
+    const apiKey = program.opts().key ? program.opts().key : checkAPIKey('OPENROUTER_API_KEY');
+
+    let aiParameters = {};
+    aiParameters['TEMPERATURE'] = program.opts().temperature;
+    aiParameters['TOP_K'] = program.opts().topk;
+    aiParameters['TOP_P'] = program.opts().topp;
+    aiParameters['FREQUENCY_PENALTY'] = program.opts().frequency;
+    aiParameters['REPETITION_PENALTY'] = program.opts().repetition;
+    aiParameters['PRESENCE_PENALTY'] = program.opts().presence;
+
+    try {
+        const context = (contextFilePath) && await readFile(contextFilePath, contextFileType);
+        systemPrompt += ` ${context}`;
+
+        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, apiKey, aiParameters);
     } catch (err) {
         log.error("Error executing program");
         throw err;
     }
 }
 
-// const aiModelName = 'openrouter/auto';
-const aiModelName = 'liquid/lfm-40b:free';
-const inputFilePath = './askhal.js';
-const inputFileType = 'txt';
-const outputStream = true;
-let aiParameters = {};
-
 /**
  * Program entry point
  */
-main(aiModelName, inputFilePath, inputFileType, outputStream)
+main()
     .then(() => log.success("Program completed successfully"))
     .catch(err => {
         log.error(`Program Error: ${err}`);
