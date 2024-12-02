@@ -1,9 +1,7 @@
 const { program } = require('commander');
-const { log, checkAPIKey } = require('./util');
+const { log } = require('./util');
 const { readFile } = require('./processContextFile');
-const { queryAI } = require('./queryOpenRouterAI');
-
-checkAPIKey('OPENROUTER_API_KEY');
+const { checkAPIKey, queryAI } = require('./queryOpenRouterAI');
 
 /**
  * Main function
@@ -14,7 +12,8 @@ checkAPIKey('OPENROUTER_API_KEY');
  * @returns {Promise<void>}
  * @throws {Error} When file reading or AI query fails
  */
-async function main(aiModelName, inputFilePath, inputFileType, outputStream) {
+async function main(aiModelName, contextFilePath, contextFileType, streamOutput, aiParameters) {
+    checkAPIKey('OPENROUTER_API_KEY');
     try {
         const context = await readFile(inputFilePath, inputFileType);
         let systemMessage = `You are an experienced developer tasked with code reviewing the following program: ${context}`;

@@ -10,6 +10,17 @@ const client = new openAI({
 });
 
 /**
+ * Check if API Key is defined, otherwise terminate the program
+ * @param {string} env – Required API Key to proceed
+ */
+function checkAPIKey(env) {
+    if (!process.env[env]) {
+        log.error("OpenRouter API Key not defined in environment variable. Program terminated.");
+        process.exit(1);
+    }
+}
+
+/**
  * Queries an AI model with given parameters
  * @param {string} aiModelName - Name of the AI model to use
  * @param {string} systemMessage - System context message
@@ -53,4 +64,4 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, aiP
     }
 }
 
-module.exports = { queryAI };
+module.exports = { checkAPIKey, queryAI };
