@@ -34,13 +34,23 @@ async function main() {
     aiParameters['REPETITION_PENALTY'] = program.opts().repetition;
     aiParameters['PRESENCE_PENALTY'] = program.opts().presence;
 
+    let context;
     try {
-        const context = (contextFilePath) && await readFile(contextFilePath, contextFileType);
-        systemPrompt += ` ${context}`;
+        if (contextFilePath)
+            context = await readFile(contextFilePath, contextFileType);
 
+        if (systemPrompt)
+            systemPrompt = (context) ? systemPrompt + ` ${context}` : systemPrompt;
+
+    } catch (err) {
+        log.error("Error reading context file");
+        throw err;
+    }
+
+    try {
         await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, apiKey, aiParameters);
     } catch (err) {
-        log.error("Error executing program");
+        log.error("Error querying AI");
         throw err;
     }
 }

@@ -24,6 +24,12 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
         }
     });
 
+    let messages = [{ "role": "user", "content": userPrompt }];
+
+    if (systemMessage) {
+        messages. unshift({ "role": "system", "content": systemMessage });
+    }
+
     try {
         const result = await client.chat.completions.create({
             model: aiModelName,
@@ -35,10 +41,7 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
             frequency_penalty: (aiParameters.FREQUENCY_PENALTY) && aiParameters.FREQUENCY_PENALTY,
             presence_penalty: (aiParameters.PRESENCE_PENALTY) && aiParameters.PRESENCE_PENALTY,
             repetition_penalty: (aiParameters.REPETITION_PENALTY) && aiParameters.REPETITION_PENALTY,
-            messages: [
-                { "role": "system", "content": systemMessage },
-                { "role": "user", "content": userPrompt }
-            ]
+            messages: messages
         });
 
         log.info('');
