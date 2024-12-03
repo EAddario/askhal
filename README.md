@@ -78,7 +78,7 @@ Below is a breakdown of the command-line options available for Ask HAL:
 
 ## Usage Examples
 
-The examples below use the [`openrouter/auto`](https://openrouter.ai/openrouter/auto), a meta-model that automatically selects the 'best' model based on your prompt's size and complexity. OpenRouter's documentation is lacking regarding how a model is actually chosen, but they invariably require a paid account. To use the free tier, just use one from [this list](https://openrouter.ai/models?max_price=0)
+The examples below use [`openrouter/auto`](https://openrouter.ai/openrouter/auto), a meta-model that automatically selects the 'best' model based on your prompt's size and complexity. OpenRouter's documentation is lacking regarding how a model is actually chosen, but they invariably require a paid account. To use the free tier, just replace with one from [this list](https://openrouter.ai/models?max_price=0).
 
 ### Display help
 
@@ -93,7 +93,7 @@ node askhal.js --version
 Query the AI model with a user prompt only:
 
 ```sh
-node askhal.js --model openrouter/auto --user "What is the capital of France?"
+node askhal.js --model "openrouter/auto" --user "What is the capital of France?"
 ```
 
 ### Query with a System Prompt
@@ -101,7 +101,7 @@ node askhal.js --model openrouter/auto --user "What is the capital of France?"
 Guide AI model behavior with a system prompt:
 
 ```sh
-node askhal.js --model openrouter/auto --user "Summarize this article" --system "Provide a concise summary in bullet points."
+node askhal.js --model "openrouter/auto" --user "Summarize this article" --system "Provide a concise summary in bullet points."
 ```
 
 ### Query with Additional Context from a File
@@ -109,7 +109,7 @@ node askhal.js --model openrouter/auto --user "Summarize this article" --system 
 Append context from a file (e.g., `research.txt`) to the system prompt:
 
 ```sh
-node askhal.js --model openrouter/auto --user "Summarize this research paper." --system "Summarize in bullet points." --context "./research.txt" --type "txt"
+node askhal.js --model "openrouter/auto" --user "Summarize this research paper." --system "Summarize in bullet points." --context "./research.txt" --type "txt"
 ```
 
 ### Modify AI Behavior with Parameters
@@ -117,7 +117,7 @@ node askhal.js --model openrouter/auto --user "Summarize this research paper." -
 Fine-tune the AI behavior using parameters like `temperature`, `topk`, and `topp`.
 
 ```sh
-node askhal.js --model openrouter/auto --user "Write a poem about the sea." --temperature 1.5 --topk 50 --topp 0.9
+node askhal.js --model "openrouter/auto" --user "Write a poem about the sea." --temperature 1.5 --topk 50 --topp 0.9
 ```
 
 ### Stream the Output in Real-Time
@@ -125,7 +125,7 @@ node askhal.js --model openrouter/auto --user "Write a poem about the sea." --te
 Fetch results as the AI generates them:
 
 ```sh
-node askhal.js --model openrouter/auto --user "Tell me a story about a brave knight." --responsive
+node askhal.js --model "openrouter/auto" --user "Tell me a story about a brave knight." --responsive
 ```
 
 ### Specify API Key via Command-Line
@@ -133,7 +133,7 @@ node askhal.js --model openrouter/auto --user "Tell me a story about a brave kni
 Pass the API key directly:
 
 ```sh
-node askhal.js --model openrouter/auto --user "Translate this to French." --key "sk-or-v1-311..."
+node askhal.js --model "openrouter/auto" --user "Translate this to French." --key "sk-or-v1-311..."
 ```
 
 ---
