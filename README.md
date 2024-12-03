@@ -56,23 +56,23 @@ npm install
 
 Below is a breakdown of the command-line options available for Ask HAL:
 
-| Option                       | Description                                                                                         | Required | Default Value        |
-|------------------------------|-----------------------------------------------------------------------------------------------------|----------|----------------------|
-| **-m, --model `<name>`**     | Name of the OpenRouter AI model to query (e.g., `openrouter/auto`).                                 | Yes      | N/A                  |
-| **-u, --user `<prompt>`**    | The user query prompt to be sent to the AI model.                                                   | Yes      | N/A                  |
-| **-s, --system `<prompt>`**  | Instructions for guiding the model's behavior, tone, or specifying the desired output.              | No       | N/A                  |
-| **-c, --context `<file>`**   | Specifies a file (e.g., `.docx`, `.pdf`, `.txt`) to include as additional context for the query.    | No       | N/A                  |
-| **-t, --type `<extension>`** | Specifies the type of the context file (supports `docx`, `pdf`, `txt`, etc.).                       | No       | `txt`                |
-| **-r, --responsive**         | Streams the model's output as it's generated rather than waiting for the final result.              | No       | `false`              |
-| **-k, --key `<value>`**      | A valid OpenRouter API key to authenticate queries.                                                 | No       | Set via ENV Variable |
-| **--temperature `<value>`**  | Adjusts randomness; values range from `0.0` (deterministic) to `2.0` (highly creative).             | No       | `1.0`                |
-| **--topk `<value>`**         | Controls diversity by limiting to the top `K` tokens; higher values allow more randomness.          | No       | `0`                  |
-| **--topp `<value>`**         | Controls diversity by sampling from the top cumulative probability `P`; values from `0.0` to `1.0`. | No       | `1.0`                |
-| **--frequency `<value>`**    | Penalizes token frequency in generated results; ranges from `-2.0` to `2.0`.                        | No       | `0`                  |
-| **--repetition `<value>`**   | Penalizes token repetition in generated results; ranges from `0.0` to `2.0`.                        | No       | `1.0`                |
-| **--presence `<value>`**     | Penalizes token presence in generated results; ranges from `-2.0` to `2.0`.                         | No       | `0`                  |
-| **-v, --version**            | Displays the current version of Ask HAL.                                                            | No       | N/A                  |
-| **-h, --help**               | Displays help information and usage instructions.                                                   | No       | N/A                  |
+| Option                       | Description                                                                                        | Required | Default Value        |
+|------------------------------|----------------------------------------------------------------------------------------------------|----------|----------------------|
+| **-m, --model `<name>`**     | Name of the OpenRouter AI model to query (e.g., `openrouter/auto`)                                 | Yes      | N/A                  |
+| **-u, --user `<prompt>`**    | The user query prompt to be sent to the AI model                                                   | Yes      | N/A                  |
+| **-s, --system `<prompt>`**  | Instructions for guiding the model's behavior, tone, or specifying the desired output              | No       | N/A                  |
+| **-c, --context `<file>`**   | Specifies a file (e.g., `.docx`, `.pdf`, `.txt`) to include as additional context for the query    | No       | N/A                  |
+| **-t, --type `<extension>`** | Specifies the type of the context file (supports `docx`, `pdf`, `txt`, etc.)                       | No       | `txt`                |
+| **-r, --responsive**         | Streams the model's output as it's generated rather than waiting for the final result              | No       | `false`              |
+| **-k, --key `<value>`**      | A valid OpenRouter API key to authenticate queries                                                 | No       | Set via ENV Variable |
+| **--temperature `<value>`**  | Adjusts randomness; values range from `0.0` (deterministic) to `2.0` (highly creative)             | No       | `1.0`                |
+| **--topk `<value>`**         | Controls diversity by limiting to the top `K` tokens; higher values allow more randomness          | No       | `0`                  |
+| **--topp `<value>`**         | Controls diversity by sampling from the top cumulative probability `P`; values from `0.0` to `1.0` | No       | `1.0`                |
+| **--frequency `<value>`**    | Penalizes token frequency in generated results; ranges from `-2.0` to `2.0`                        | No       | `0`                  |
+| **--repetition `<value>`**   | Penalizes token repetition in generated results; ranges from `0.0` to `2.0`                        | No       | `1.0`                |
+| **--presence `<value>`**     | Penalizes token presence in generated results; ranges from `-2.0` to `2.0`                         | No       | `0`                  |
+| **-v, --version**            | Displays the program's current version                                                             | No       | N/A                  |
+| **-h, --help**               | Displays help information and usage instructions                                                   | No       | N/A                  |
 
 ---
 
