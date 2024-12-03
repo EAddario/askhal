@@ -17,6 +17,15 @@ async function main() {
     const streamOutput = program.opts().responsive;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
 
+    /**
+     * @typedef {Object} AIParameters
+     * @property {number} [TEMPERATURE] - Range: [0.0, 2.0]. Controls the randomness of the generated text.
+     * @property {number} [TOP_P] - Range: [0.0, 1.0]. Controls the diversity of the generated text.
+     * @property {number} [TOP_K] - Range: [1, Infinity). Controls the diversity of the generated text.
+     * @property {number} [FREQUENCY_PENALTY] - Range: [-2.0, 2.0]. Penalizes the frequency of a token in the generated text.
+     * @property {number} [PRESENCE_PENALTY] - Range: [-2.0, 2.0]. Penalizes the presence of a token in the generated text.
+     * @property {number} [REPETITION_PENALTY] - Range: [0.0, 2.0]. Penalizes the repetition of a token in the generated text.
+     */
     let aiParameters = {};
     aiParameters['TEMPERATURE'] = program.opts().temperature;
     aiParameters['TOP_K'] = program.opts().topk;
