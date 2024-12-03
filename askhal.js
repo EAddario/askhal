@@ -1,4 +1,4 @@
-const { checkAPIKey, log, processCLIArguments } = require('./util');
+const { checkEnvAPIKey, log, processCLIArguments } = require('./util');
 const { readFile } = require('./processContextFile');
 const { queryAI } = require('./queryOpenRouterAI');
 
@@ -15,7 +15,7 @@ async function main() {
     const userPrompt = program.opts().user;
     const contextFileType = program.opts().type;
     const streamOutput = program.opts().responsive;
-    const apiKey = program.opts().key ? program.opts().key : checkAPIKey('OPENROUTER_API_KEY');
+    const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
 
     let aiParameters = {};
     aiParameters['TEMPERATURE'] = program.opts().temperature;
