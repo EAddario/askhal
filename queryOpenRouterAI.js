@@ -17,13 +17,18 @@ const { log } = require('./util');
 async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, apiKey, aiParameters) {
     const client = new openAI({
         baseURL: 'https://openrouter.ai/api/v1',
-        apiKey: apiKey
+        apiKey: apiKey,
+        defaultHeaders: {
+            "HTTP-Referer": "https://github.com/EAddario/askhal",
+            "X-Title": "Ask HAL"
+        }
     });
 
     try {
         const result = await client.chat.completions.create({
             model: aiModelName,
             stream: outputStream,
+            transforms: [],
             temperature: (aiParameters.TEMPERATURE) && aiParameters.TEMPERATURE,
             top_p: (aiParameters.TOP_P) && aiParameters.TOP_P,
             top_k: (aiParameters.TOP_K) && aiParameters.TOP_K,
