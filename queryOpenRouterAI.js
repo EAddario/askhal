@@ -62,7 +62,7 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
             log.error(`Data: ${JSON.stringify(err.response.data)}`);
         }
 
-        process.exit(1);
+        throw new Error(`Error querying model [${aiModelName}]`);
     }
 }
 

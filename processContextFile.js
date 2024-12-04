@@ -15,7 +15,7 @@ async function readFile(inputFilePath, inputFileType) {
     if (!validFileTypes.includes(inputFileType.toLowerCase())) {
         log.error(`Error: ${inputFileType} is not a valid file type`);
         log.error(`askhal only supports the following file types: ${validFileTypes.join(', ')}`);
-        process.exit(1);
+        throw new Error(`Error: ${inputFileType} is not a valid file type`);
     }
 
     try {
@@ -24,6 +24,7 @@ async function readFile(inputFilePath, inputFileType) {
             : await officeParser.parseOfficeAsync(inputFilePath);
 
         if (!fileContent || !fileContent.trim()) {
+            log.error(`Error: ${inputFilePath} is empty`);
             throw new Error(`Error: file ${inputFilePath} is empty`);
         }
 
