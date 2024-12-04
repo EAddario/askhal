@@ -54,6 +54,13 @@ describe('readFile() tests', () => {
 
     });
 
+    // TODO: Important! Before running this test, please the invalid.txt and change its access control to something like 000 or 222
+    it('should throw an error for invalid txt file', async () => {
+        const filePath = './tests/assets/invalid.txt';
+        const fileType = 'txt';
+        return expect(readFile(filePath, fileType)).to.be.rejectedWith("EACCES: permission denied");
+    });
+
     it('should throw an error for invalid Excel file', async () => {
         const filePath = './tests/assets/invalid.xlsx';
         const fileType = 'xlsx';
