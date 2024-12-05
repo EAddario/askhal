@@ -1,4 +1,4 @@
-# [Ask HAL](https://github.com/EAddario/askhal): A power-user tool to interact with over 250 AI models!
+# [Ask HAL](https://github.com/EAddario/askhal): A power-user CLI to interact with over 250 AI models!
 
 `askhal` allows you to query all the AI models available in [OpenRouter](https://openrouter.ai/), giving you access to many low-level configuration options. The tool is designed to give users precise control over the model's behavior via context files, system and user prompts, and several fine-tuning parameters.
 
@@ -8,9 +8,11 @@
 
 1. [Features](#features)
 2. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
 3. [Command-Line Options](#command-line-options)
 4. [Usage Examples](#usage-examples)
-5. [Error Handling](#error-handling)
+5. [License](#license)
 
 ---
 
@@ -48,6 +50,18 @@ Clone the repository and install the required dependencies:
 git clone https://github.com/EAddario/askhal.git
 cd askhal
 npm install
+```
+
+Alternatively, if you have Docker installed, you could use a ready-made [container](https://hub.docker.com/r/edaddario/askhal):
+
+```sh
+docker run --rm -it edaddario/askhal --model "openrouter/auto" --user "What is the capital of France?" --key=$OPENROUTER_API_KEY
+```
+
+To use a context file you'll need to map the appropiate directories:
+
+```sh
+docker run --rm -it -v /path_to_context_directory:/context edaddario/askhal --model "openrouter/auto" --user "Summarize this research paper." --context "/context/research.txt" --type "txt" --key=$OPENROUTER_API_KEY
 ```
 
 ---
@@ -138,10 +152,8 @@ node askhal.js --model "openrouter/auto" --user "Translate this to French." --ke
 
 ---
 
-## Error Handling
+## License
 
-- If required options (`--model`, `--user`) are missing, the program will terminate and display an error message.
-- If the specified context file type is invalid, the program will list all supported file types and exit.
-- API key authentication errors result in a relevant error message and program termination.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/EAddario/askhal#MIT-1-ov-file) file for details.
 
 ---
