@@ -84,7 +84,7 @@ describe('readFile() tests', () => {
         const filePath = './tests/assets/access_denied.txt';
         const fileType = 'txt';
         expect(readFile(filePath, fileType)).to.be.rejectedWith(Error);
-        return expect(readFile(filePath, fileType)).to.be.rejectedWith("ENOENT: no such file or directory");
+        return expect(readFile(filePath, fileType)).to.be.rejectedWith("EACCES: permission denied");
     });
 
     it('should throw an error if the file is empty', async () => {
