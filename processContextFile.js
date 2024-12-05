@@ -13,9 +13,8 @@ const validFileTypes = ['docx', 'odt', 'odp', 'ods', 'pdf', 'pptx', 'txt', 'xlsx
  */
 async function readFile(inputFilePath, inputFileType) {
     if (!validFileTypes.includes(inputFileType.toLowerCase())) {
-        log.error(`Error: ${inputFileType} is not a valid file type`);
-        log.error(`askhal only supports the following file types: ${validFileTypes.join(', ')}`);
-        throw new Error(`Error: ${inputFileType} is not a valid file type`);
+        log.error(`'${inputFileType}' is not a valid file type. Only ${validFileTypes.join(', ')} are supported`);
+        throw new Error(`'${inputFileType}' is not a valid file type`);
     }
 
     try {
@@ -24,8 +23,9 @@ async function readFile(inputFilePath, inputFileType) {
             : await officeParser.parseOfficeAsync(inputFilePath);
 
         if (!fileContent || !fileContent.trim()) {
-            log.error(`Error: ${inputFilePath} is empty`);
-            throw new Error(`Error: file ${inputFilePath} is empty`);
+            const err = new Error(`file ${inputFilePath} is empty`);
+            err.code = 'EEMPTY';
+            throw err;
         }
 
         const lineCount = fileContent.trim().split(/\r\n|\r|\n/).length;
@@ -34,11 +34,13 @@ async function readFile(inputFilePath, inputFileType) {
         return fileContent;
     } catch (err) {
         if (err.code === 'ENOENT') {
-            log.error(`Error: File ${inputFilePath} not found`);
+            log.error(`file ${inputFilePath} not found`);
         } else if (err.code === 'EACCES') {
-            log.error(`Error: Permission denied for file ${inputFilePath}`);
+            log.error(`permission denied for file ${inputFilePath}`);
+        } else if (err.code === 'EEMPTY') {
+            log.error(`EEMPTY: file ${inputFilePath} is empty`);
         } else {
-            log.error(`Error reading file ${inputFilePath}`);
+            log.error(`cannot read file ${inputFilePath}`);
         }
 
         throw err;

@@ -43,14 +43,14 @@ async function main() {
             systemPrompt = (context) ? systemPrompt + ` ${context}` : systemPrompt;
 
     } catch (err) {
-        log.error("Error reading context file");
+        log.error("could not process context file");
         throw err;
     }
 
     try {
         await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, apiKey, aiParameters);
     } catch (err) {
-        log.error("Error querying AI");
+        log.error("could not query AI model");
         throw err;
     }
 }
@@ -59,8 +59,7 @@ async function main() {
  * Program entry point
  */
 main()
-    .then(() => log.success("Program completed successfully"))
-    .catch(err => {
-        log.error(`Program Error: ${err}`);
+    .catch((err) => {
+        log.error(`Program terminated!\n${err.message}`);
         process.exit(1);
     });

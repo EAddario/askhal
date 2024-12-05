@@ -56,13 +56,13 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
         }
         log.info('');
     } catch (err) {
-        log.error(`Error querying model [${aiModelName}] - ${err.message}`);
+        log.error(`could not query model [${aiModelName}] - ${err.message}`);
         if (err.response) {
-            log.error(`Status: ${err.response.status}`);
-            log.error(`Data: ${JSON.stringify(err.response.data)}`);
+            log.error(`status: ${err.response.status}`);
+            log.error(`data: ${JSON.stringify(err.response.data)}`);
         }
 
-        throw new Error(`Error querying model [${aiModelName}]`);
+        throw new Error(`could not query model [${aiModelName}]`);
     }
 }
 
