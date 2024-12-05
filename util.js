@@ -22,8 +22,8 @@ const log = {
  */
 function checkEnvAPIKey(env) {
     if (!process.env[env]) {
-        log.error("OpenRouter API Key not defined in environment variable. Program terminated.");
-        process.exit(1);
+        log.error("OpenRouter API Key not defined in environment variable");
+        throw new Error("OpenRouter API Key not defined in environment variable");
     }
 
     return process.env[env];
@@ -43,7 +43,7 @@ function parseNumericalValue(value, name, type, min, max) {
 
     if (isNaN(parsedValue) || parsedValue < min || parsedValue > max) {
         log.error(`${name} must be between ${min} and ${max}`);
-        process.exit(1);
+        throw new Error(`${name} must be between ${min} and ${max}`);
     }
 
     return parsedValue;
@@ -51,7 +51,7 @@ function parseNumericalValue(value, name, type, min, max) {
 
 /**
  * Process command line arguments
- * @returns {Command}
+ * @returns {Object}
  */
 function processCLIArguments() {
     program
