@@ -20,7 +20,7 @@ async function readFile(inputFilePath, inputFileType) {
     try {
         const fileContent = (inputFileType.toLowerCase() === 'txt')
             ? await fs.readFile(inputFilePath, 'utf8')
-            : await officeParser.parseOfficeAsync(inputFilePath);
+            : await officeParser.parseOfficeAsync(inputFilePath, { ignoreNotes: false, outputErrorToConsole: false });
 
         if (!fileContent || !fileContent.trim()) {
             const err = new Error(`file ${inputFilePath} is empty`);
@@ -31,7 +31,7 @@ async function readFile(inputFilePath, inputFileType) {
         const lineCount = fileContent.trim().split(/\r\n|\r|\n/).length;
         log.info(`Processed ${lineCount} lines from ${inputFilePath}`);
 
-        return fileContent;
+        return fileContent.replace(/[\n\r\t]|\s+/gm, ' ');
     } catch (err) {
         if (err.code === 'ENOENT') {
             log.error(`file ${inputFilePath} not found`);
