@@ -77,6 +77,7 @@ Below is a breakdown of the command-line options available for Ask HAL:
 | **-s, --system `<prompt>`**  | Instructions for guiding the model's behavior, tone, or specifying the desired output              | No       | N/A                  |
 | **-c, --context `<file>`**   | Specifies a file (e.g., `.docx`, `.pdf`, `.txt`) to include as additional context for the query    | No       | N/A                  |
 | **-t, --type `<extension>`** | Specifies the type of the context file (supports `docx`, `pdf`, `txt`, etc.)                       | No       | `txt`                |
+| **-f, --fit**                | Enable prompt compression to fit the model's maximum context size (please see **note** below)      | No       | `false`              |
 | **-r, --responsive**         | Streams the model's output as it's generated rather than waiting for the final result              | No       | `false`              |
 | **-k, --key `<value>`**      | A valid OpenRouter API key to authenticate queries                                                 | No       | Set via ENV Variable |
 | **--temperature `<value>`**  | Adjusts randomness; values range from `0.0` (deterministic) to `2.0` (highly creative)             | No       | `1.0`                |
@@ -87,6 +88,12 @@ Below is a breakdown of the command-line options available for Ask HAL:
 | **--presence `<value>`**     | Penalizes token presence in generated results; ranges from `-2.0` to `2.0`                         | No       | `0`                  |
 | **-v, --version**            | Displays the program's current version                                                             | No       | N/A                  |
 | **-h, --help**               | Displays help information and usage instructions                                                   | No       | N/A                  |
+
+**Note:** If the context exceeds the maximum supported by the chosen model, `askahl` will terminate with an error message along the lines of `This endpoint's maximum context length is X tokens. However, you requested about Y tokens (Y of text input). Please reduce the length of either one, or use the "middle-out" transform to compress your prompt automatically.`
+
+Using the **-f** or **--fit** option will enable OpenRouter's compression algorithm which seemingly removes as much text from the middle of the prompt as it's necessary to fit within the model's limit.
+
+While this seems to be a draconian approach at first (text in the middle simply gets deleted!), it's not without some merit as explained in the [*Lost in the Middle: How Language Models Use Long Contexts*](https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf) research paper by *Nelson F. Liu, et al.* however, before enabling this feature please consider the possibility that some/all of the deleted context would have been material to the model's output.
 
 ---
 
