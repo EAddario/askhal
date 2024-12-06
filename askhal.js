@@ -27,12 +27,12 @@ async function main() {
      * @property {number} [REPETITION_PENALTY] - Range: [0.0, 2.0]. Penalizes the repetition of a token in the generated text.
      */
     let aiParameters = {};
-    aiParameters['TEMPERATURE'] = program.opts().temperature;
-    aiParameters['TOP_K'] = program.opts().topk;
-    aiParameters['TOP_P'] = program.opts().topp;
-    aiParameters['FREQUENCY_PENALTY'] = program.opts().frequency;
-    aiParameters['REPETITION_PENALTY'] = program.opts().repetition;
-    aiParameters['PRESENCE_PENALTY'] = program.opts().presence;
+    aiParameters.TEMPERATURE = program.opts().temperature;
+    aiParameters.TOP_K = program.opts().topk;
+    aiParameters.TOP_P = program.opts().topp;
+    aiParameters.FREQUENCY_PENALTY = program.opts().frequency;
+    aiParameters.REPETITION_PENALTY = program.opts().repetition;
+    aiParameters.PRESENCE_PENALTY = program.opts().presence;
 
     let context;
     try {
