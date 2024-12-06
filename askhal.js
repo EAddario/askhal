@@ -10,11 +10,12 @@ const { queryAI } = require('./queryOpenRouterAI');
 async function main() {
     const program = processCLIArguments();
     const aiModelName = program.opts().model;
-    const contextFilePath = program.opts().context;
     let systemPrompt = program.opts().system;
-    const userPrompt = program.opts().user;
+    const contextFilePath = program.opts().context;
     const contextFileType = program.opts().type;
+    const userPrompt = program.opts().user;
     const streamOutput = program.opts().responsive;
+    const compressPrompt = program.opts().fit;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
 
     /**
@@ -48,7 +49,7 @@ async function main() {
     }
 
     try {
-        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, apiKey, aiParameters);
+        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, compressPrompt, apiKey, aiParameters);
     } catch (err) {
         log.error("could not query AI model");
         throw err;

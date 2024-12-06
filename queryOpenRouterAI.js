@@ -9,12 +9,13 @@ const { log } = require('./util');
  * @param {string} systemMessage - System context message
  * @param {string} userPrompt - User query prompt
  * @param {boolean} outputStream - Whether to stream the output
+ * @param {boolean} compressPrompt - Whether to compress the prompt to fit model's maximum context size
  * @param {string} apiKey - OpenRouter API Key
  * @param {object} aiParameters - AI fine-tuning parameters
  * @returns {Promise<void>}
  * @throws {Error} When AI query fails
  */
-async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, apiKey, aiParameters) {
+async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, compressPrompt, apiKey, aiParameters) {
     const client = new openAI({
         baseURL: 'https://openrouter.ai/api/v1',
         apiKey: apiKey,
@@ -26,23 +27,27 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, api
 
     let messages = [{ "role": "user", "content": userPrompt }];
 
-    if (systemMessage) {
+    if (systemMessage)
         messages. unshift({ "role": "system", "content": systemMessage });
-    }
+
+    let openRouterRequest = {
+        model: aiModelName,
+        messages: messages,
+        transforms: [],
+        stream: outputStream,
+        temperature: (aiParameters.TEMPERATURE) && aiParameters.TEMPERATURE,
+        top_p: (aiParameters.TOP_P) && aiParameters.TOP_P,
+        top_k: (aiParameters.TOP_K) && aiParameters.TOP_K,
+        frequency_penalty: (aiParameters.FREQUENCY_PENALTY) && aiParameters.FREQUENCY_PENALTY,
+        presence_penalty: (aiParameters.PRESENCE_PENALTY) && aiParameters.PRESENCE_PENALTY,
+        repetition_penalty: (aiParameters.REPETITION_PENALTY) && aiParameters.REPETITION_PENALTY,
+    };
+
+    if (compressPrompt)
+        openRouterRequest.transforms = "middle-out";
 
     try {
-        const result = await client.chat.completions.create({
-            model: aiModelName,
-            stream: outputStream,
-            transforms: [],
-            temperature: (aiParameters.TEMPERATURE) && aiParameters.TEMPERATURE,
-            top_p: (aiParameters.TOP_P) && aiParameters.TOP_P,
-            top_k: (aiParameters.TOP_K) && aiParameters.TOP_K,
-            frequency_penalty: (aiParameters.FREQUENCY_PENALTY) && aiParameters.FREQUENCY_PENALTY,
-            presence_penalty: (aiParameters.PRESENCE_PENALTY) && aiParameters.PRESENCE_PENALTY,
-            repetition_penalty: (aiParameters.REPETITION_PENALTY) && aiParameters.REPETITION_PENALTY,
-            messages: messages
-        });
+        const result = await client.chat.completions.create(openRouterRequest);
 
         log.info('');
         if (outputStream) {
