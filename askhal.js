@@ -1,6 +1,6 @@
 const { checkEnvAPIKey, log, processCLIArguments } = require('./util');
-const { readFile } = require('./processContextFile');
-const { queryAI } = require('./queryOpenRouterAI');
+const { readFile } = require('./processContext');
+const { queryAI } = require('./queryOpenRouter');
 
 /**
  * Main function
@@ -12,7 +12,7 @@ async function main() {
     const aiModelName = program.opts().model;
     let systemPrompt = program.opts().system;
     const contextFilePath = program.opts().context;
-    const contextFileType = program.opts().type;
+    const contextFileType = (program.opts().type).toLowerCase();
     const userPrompt = program.opts().user;
     const streamOutput = program.opts().responsive;
     const compressPrompt = program.opts().fit;
@@ -61,6 +61,6 @@ async function main() {
  */
 main()
     .catch((err) => {
-        log.error(`Program terminated!\n${err.message}`);
+        log.error(`Program terminated with error code '${err.code}'\n${err.message} `);
         process.exit(1);
     });

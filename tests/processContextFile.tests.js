@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised').default;
-const { readFile } = require('../processContextFile');
+const { readFile } = require('../processContext');
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
