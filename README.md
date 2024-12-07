@@ -58,7 +58,7 @@ Alternatively, if you have Docker installed, you could use a ready-made [contain
 docker run --rm -it edaddario/askhal --model "openrouter/auto" --user "What is the capital of France?" --key=$OPENROUTER_API_KEY
 ```
 
-To use a context file you'll need to map the appropiate directories:
+To use a context file you'll need to map the appropriate directories:
 
 ```sh
 docker run --rm -it -v /path_to_context_directory:/context edaddario/askhal --model "openrouter/auto" --user "Summarize this research paper." --context "/context/research.txt" --type "txt" --key=$OPENROUTER_API_KEY
@@ -70,26 +70,30 @@ docker run --rm -it -v /path_to_context_directory:/context edaddario/askhal --mo
 
 Below is a breakdown of the command-line options available for Ask HAL:
 
-| Option                       | Description                                                                                        | Required | Default Value        |
-|------------------------------|----------------------------------------------------------------------------------------------------|----------|----------------------|
-| **-m, --model `<name>`**     | Name of the OpenRouter AI model to query (e.g., `openrouter/auto`)                                 | Yes      | N/A                  |
-| **-u, --user `<prompt>`**    | The user query prompt to be sent to the AI model                                                   | Yes      | N/A                  |
-| **-s, --system `<prompt>`**  | Instructions for guiding the model's behavior, tone, or specifying the desired output              | No       | N/A                  |
-| **-c, --context `<file>`**   | Specifies a file (e.g., `.docx`, `.pdf`, `.txt`) to include as additional context for the query    | No       | N/A                  |
-| **-t, --type `<extension>`** | Specifies the type of the context file (supports `docx`, `pdf`, `txt`, etc.)                       | No       | `txt`                |
-| **-f, --fit**                | Enable prompt compression to fit the model's maximum context size (please see **note** below)      | No       | `false`              |
-| **-r, --responsive**         | Streams the model's output as it's generated rather than waiting for the final result              | No       | `false`              |
-| **-k, --key `<value>`**      | A valid OpenRouter API key to authenticate queries                                                 | No       | Set via ENV Variable |
-| **--temperature `<value>`**  | Adjusts randomness; values range from `0.0` (deterministic) to `2.0` (highly creative)             | No       | `1.0`                |
-| **--topk `<value>`**         | Controls diversity by limiting to the top `K` tokens; higher values allow more randomness          | No       | `0`                  |
-| **--topp `<value>`**         | Controls diversity by sampling from the top cumulative probability `P`; values from `0.0` to `1.0` | No       | `1.0`                |
-| **--frequency `<value>`**    | Penalizes token frequency in generated results; ranges from `-2.0` to `2.0`                        | No       | `0`                  |
-| **--repetition `<value>`**   | Penalizes token repetition in generated results; ranges from `0.0` to `2.0`                        | No       | `1.0`                |
-| **--presence `<value>`**     | Penalizes token presence in generated results; ranges from `-2.0` to `2.0`                         | No       | `0`                  |
-| **-v, --version**            | Displays the program's current version                                                             | No       | N/A                  |
-| **-h, --help**               | Displays help information and usage instructions                                                   | No       | N/A                  |
+| Option                            | Description                                                                                          | Required | Default Value        |
+|-----------------------------------|------------------------------------------------------------------------------------------------------|----------|----------------------|
+| **-m, --model `<name>`**          | Name of the OpenRouter AI model to query (e.g., `openrouter/auto`)                                   | Yes      | N/A                  |
+| **-u, --user `<prompt>`**         | The user query prompt to be sent to the AI model                                                     | Yes      | N/A                  |
+| **-s, --system `<prompt>`**       | Instructions for guiding the model's behavior, tone, or specifying the desired output                | No       | N/A                  |
+| **-c, --context `<file>/<html>`** | Specifies the file or URL to use as additional context for the query. Multiple sources are possible* | No       | N/A                  |
+| **-t, --type `<extension>`**      | Specifies the type of the context file (supports `docx`, `html`, `pdf`, `txt`, etc.)                 | No       | `txt`                |
+| **-f, --fit**                     | Enable prompt compression to fit the model's maximum context size**                                  | No       | `false`              |
+| **-r, --responsive**              | Streams the model's output as it's generated rather than waiting for the final result                | No       | `false`              |
+| **-k, --key `<value>`**           | A valid OpenRouter API key to authenticate queries                                                   | No       | Set via ENV Variable |
+| **--temperature `<value>`**       | Adjusts randomness; values range from `0.0` (deterministic) to `2.0` (highly creative)               | No       | `1.0`                |
+| **--topk `<value>`**              | Controls diversity by limiting to the top `K` tokens; higher values allow more randomness            | No       | `0`                  |
+| **--topp `<value>`**              | Controls diversity by sampling from the top cumulative probability `P`; values from `0.0` to `1.0`   | No       | `1.0`                |
+| **--frequency `<value>`**         | Penalizes token frequency in generated results; ranges from `-2.0` to `2.0`                          | No       | `0`                  |
+| **--repetition `<value>`**        | Penalizes token repetition in generated results; ranges from `0.0` to `2.0`                          | No       | `1.0`                |
+| **--presence `<value>`**          | Penalizes token presence in generated results; ranges from `-2.0` to `2.0`                           | No       | `0`                  |
+| **-v, --version**                 | Displays the program's current version                                                               | No       | N/A                  |
+| **-h, --help**                    | Displays help information and usage instructions                                                     | No       | N/A                  |
 
-**Note:** If the context exceeds the maximum supported by the chosen model, `askahl` will terminate with an error message along the lines of `This endpoint's maximum context length is X tokens. However, you requested about Y tokens (Y of text input). Please reduce the length of either one, or use the "middle-out" transform to compress your prompt automatically.`
+**\*** Multiple context sources are possible by providing a comma separated list e.g. `--context 'file1.txt, file2.txt, file3.txt'`
+
+The files should be of the same type.
+
+**\*\*** If the context exceeds the maximum supported by the chosen model, `askahl` will terminate with an error message along the lines of `This endpoint's maximum context length is X tokens. However, you requested about Y tokens (Y of text input). Please reduce the length of either one, or use the "middle-out" transform to compress your prompt automatically.`
 
 Using the **-f** or **--fit** option will enable OpenRouter's compression algorithm which seemingly removes as much text from the middle of the prompt as it's necessary to fit within the model's limit.
 
@@ -119,18 +123,26 @@ node askhal.js --model "openrouter/auto" --user "What is the capital of France?"
 
 ### Query with a System Prompt
 
-Guide AI model behavior with a system prompt:
+Guide the AI model's behavior with a system prompt:
 
 ```sh
-node askhal.js --model "openrouter/auto" --user "Summarize this article" --system "Provide a concise summary in bullet points."
+node askhal.js --model "openrouter/auto" --user "How many pounds are in a kilogram?" --system "You are a chatbot that reluctantly answers questions with sarcastic responses."
 ```
 
-### Query with Additional Context from a File
+### Query with Additional Context from a Webpage
 
-Append context from a file (e.g., `research.txt`) to the system prompt:
+Fetch context from a URL (e.g., `www.example.com`) to be included in the system prompt:
 
 ```sh
-node askhal.js --model "openrouter/auto" --user "Summarize this research paper." --system "Summarize in bullet points." --context "./research.txt" --type "txt"
+node askhal.js --model "openrouter/auto" --user "Critique the webpage and provide suggestions to improve." --system "You are a web designer reviewing the following webpage:" --context "www.example.com" --type "html"
+```
+
+### Query with Additional Context from multiple Files
+
+Append context from several files to be included in the system prompt:
+
+```sh
+node askhal.js --model "openrouter/auto" --user "Summarize the research and conclusion." --system "You are a researcher reviewing the following white papers:" --context "research.pdf, ./data/experiment.pdf, ./final/conclusion.pdf" --type "pdf"
 ```
 
 ### Modify AI Behavior with Parameters
@@ -143,7 +155,7 @@ node askhal.js --model "openrouter/auto" --user "Write a poem about the sea." --
 
 ### Stream the Output in Real-Time
 
-Fetch results as the AI generates them:
+Display results as the AI generates them:
 
 ```sh
 node askhal.js --model "openrouter/auto" --user "Tell me a story about a brave knight." --responsive
