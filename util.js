@@ -77,8 +77,12 @@ function processCLIArguments() {
         .option('--repetition <value>', 'range from 0.0 to 2.0 (default 1.0)', (value) => parseNumericalValue(value, 'Repetition', 'float', 0.0, 2.0))
         .option('--presence <value>', 'range from -2.0 to 2.0 (default 0)', (value) => parseNumericalValue(value, 'Presence', 'float', -2.0, 2.0))
         .addHelpText('after','\nFor more information and usage examples please visit https://github.com/EAddario/askhal\n');
-    program.parse(process.argv);
 
+    if (process.argv.length < 3) {
+        program.help()
+    }
+
+    program.parse(process.argv);
     return program;
 }
 
