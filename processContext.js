@@ -20,7 +20,7 @@ async function readFile(contextPath, contextType) {
     }
 
     try {
-        let fileContent;
+        let fileContent = '';
         switch (contextType) {
             case 'txt':
                 let txtFiles = contextPath.split(',');
@@ -44,7 +44,7 @@ async function readFile(contextPath, contextType) {
             default:
                 let officeFiles = contextPath.split(',');
                 for (let officeFile of officeFiles) {
-                    log.info(`Reading ${txtFile}`);
+                    log.info(`Reading ${officeFile}`);
                     fileContent += `${await officeParser.parseOfficeAsync(officeFile.trim(), { ignoreNotes: true, outputErrorToConsole: false })} `;
                 }
         }
@@ -58,7 +58,7 @@ async function readFile(contextPath, contextType) {
         const lineCount = fileContent.trim().split(/\r\n|\r|\n/).length;
         log.info(`Processed ${lineCount} lines`);
 
-        return fileContent.replace(/[\n\r\t]|\s+/gm, ' ');
+        return fileContent.replace(/[\n\r\t]|\s+/gm, ' ').trim();
     } catch (err) {
         if (err.code === 'ENOENT') {
             log.error(`context ${contextPath} not found`);
