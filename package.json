@@ -28,5 +28,12 @@
       "@types/chai": "^5.0.1",
       "chai-as-promised": "^8.0.1",
       "@types/chai-as-promised": "^8.0.1"
-    }
+    },
+  "pkg": {
+    "scripts": "*.js",
+    "targets": [
+      "latest-macos-arm64"
+    ],
+    "outputPath": "bin"
+  }
 }
