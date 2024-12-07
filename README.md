@@ -158,7 +158,7 @@ node askhal.js --model "openrouter/auto" --user "Write a poem about the sea." --
 Display results as the AI generates them:
 
 ```sh
-node askhal.js --model "openrouter/auto" --user "Tell me a story about a brave knight." --responsive
+node askhal.js --model "openrouter/auto" --user "Tell me a story about a brave yet underpaid software engineer." --responsive
 ```
 
 ### Specify API Key via Command-Line
