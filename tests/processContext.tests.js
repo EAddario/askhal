@@ -15,7 +15,7 @@ describe('readFile() tests', () => {
         return expect(content).to.equal(fileContent);
     });
 
-    it('should read a valid Excel file type', async () => {
+    it('should read a valid Excel file and return its content', async () => {
         const filePath = './tests/assets/valid.xlsx';
         const fileType = 'xlsx';
         const fileContent = 'Hello, World!';
@@ -23,7 +23,7 @@ describe('readFile() tests', () => {
         return expect(content).to.equal(fileContent);
     });
 
-    it('should read a valid PowerPoint file type', async () => {
+    it('should read a valid PowerPoint file and return its content', async () => {
         const filePath = './tests/assets/valid.pptx';
         const fileType = 'pptx';
         const fileContent = 'Hello, World!';
@@ -31,7 +31,7 @@ describe('readFile() tests', () => {
         return expect(content).to.equal(fileContent);
     });
 
-    it('should read a valid Word file type', async () => {
+    it('should read a valid Word file and return its content', async () => {
         const filePath = './tests/assets/valid.docx';
         const fileType = 'docx';
         const fileContent = 'Hello, World!';
@@ -39,7 +39,7 @@ describe('readFile() tests', () => {
         return expect(content).to.equal(fileContent);
     });
 
-    it('should read a valid pdf file type', async () => {
+    it('should read a valid pdf file and return its content', async () => {
         const filePath = './tests/assets/valid.pdf';
         const fileType = 'pdf';
         const fileContent = 'Hello, World!';
@@ -72,22 +72,22 @@ describe('readFile() tests', () => {
         return expect(readFile(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: Error");
     });
 
-    it('should handle file not found error gracefully', async () => {
+    it('should throw an error for file not found', async () => {
         const filePath = './tests/assets/nonexistent.txt';
         const fileType = 'txt';
         expect(readFile(filePath, fileType)).to.be.rejectedWith(Error);
         return expect(readFile(filePath, fileType)).to.be.rejectedWith("ENOENT: no such file or directory");
     });
 
-    // TODO: Important! Before running this test, please the invalid.txt and change its access control to something like 000 or 222
-    it('should handle permission denied error gracefully', async () => {
+    // TODO: Important! Before running this test, create the invalid.txt file and change its access control to something like 000 or 222
+    it('should throw an error for permission denied', async () => {
         const filePath = './tests/assets/access_denied.txt';
         const fileType = 'txt';
         expect(readFile(filePath, fileType)).to.be.rejectedWith(Error);
         return expect(readFile(filePath, fileType)).to.be.rejectedWith("EACCES: permission denied");
     });
 
-    it('should throw an error if the file is empty', async () => {
+    it('should throw an error for file is empty', async () => {
         const filePath = './tests/assets/empty.txt';
         const fileType = 'txt';
         expect(readFile(filePath, fileType)).to.be.rejectedWith(Error);
