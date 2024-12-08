@@ -11,8 +11,8 @@ async function main() {
     const program = processCLIArguments();
     const aiModelName = program.opts().model;
     let systemPrompt = program.opts().system;
-    const contextFilePath = program.opts().context;
-    const contextFileType = (program.opts().type).toLowerCase();
+    const contextPath = program.opts().context;
+    const contextType = (program.opts().type).toLowerCase();
     const userPrompt = program.opts().user;
     const streamOutput = program.opts().responsive;
     const compressPrompt = program.opts().fit;
@@ -37,8 +37,8 @@ async function main() {
 
     let context;
     try {
-        if (contextFilePath)
-            context = await readFile(contextFilePath, contextFileType);
+        if (contextPath)
+            context = await readFile(contextPath, contextType);
 
         if (systemPrompt)
             systemPrompt = (context) ? systemPrompt + ` ${context}` : systemPrompt;
