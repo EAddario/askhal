@@ -1,7 +1,7 @@
 const openAI = require('openai');
 const wrap = require('word-wrap');
 const chalk = require('chalk');
-const { log } = require('./util');
+const { log } = require('./util.js');
 
 /**
  * Queries an AI model with given parameters

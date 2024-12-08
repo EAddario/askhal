@@ -1,6 +1,6 @@
-const { checkEnvAPIKey, log, processCLIArguments } = require('./util');
-const { readFile } = require('./processContext');
-const { queryAI } = require('./queryOpenRouter');
+const { checkEnvAPIKey, log, processCLIArguments } = require('./util.js');
+const { readFile } = require('./processContext.js');
+const { queryAI } = require('./queryOpenRouter.js');
 
 /**
  * Main function
@@ -50,6 +50,7 @@ async function main() {
 
     try {
         await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, compressPrompt, apiKey, aiParameters);
+
     } catch (err) {
         log.error("could not query AI model");
         throw err;

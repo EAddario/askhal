@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const officeParser = require('officeparser');
 const axios = require('axios');
 const { convert } = require('html-to-text');
-const { log } = require('./util');
+const { log } = require('./util.js');
 
 const validContextTypes = ['docx', 'html', 'odt', 'odp', 'ods', 'pdf', 'pptx', 'txt', 'xlsx'];
 
