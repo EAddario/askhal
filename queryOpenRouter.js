@@ -1,7 +1,7 @@
-const openAI = require('openai');
-const wrap = require('word-wrap');
-const chalk = require('chalk');
-const { log } = require('./util.js');
+import OpenAI  from 'openai';
+import wrap from 'word-wrap';
+import chalk from 'chalk';
+import { log } from './util.js';
 
 /**
  * Queries an AI model with given parameters
@@ -16,7 +16,7 @@ const { log } = require('./util.js');
  * @throws {Error} When AI query fails
  */
 async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, compressPrompt, apiKey, aiParameters) {
-    const client = new openAI({
+    const client = new OpenAI({
         baseURL: 'https://openrouter.ai/api/v1',
         apiKey: apiKey,
         defaultHeaders: {
@@ -71,4 +71,4 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, com
     }
 }
 
-module.exports = { queryAI };
+export { queryAI };
