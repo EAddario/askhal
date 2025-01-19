@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { checkEnvAPIKey } = require('../util.js');
+import { expect } from 'chai';
+import { checkEnvAPIKey } from '../util.js';
 
 describe('util tests', () => {
     it('should throw an error for invalid environment variable value', () => {

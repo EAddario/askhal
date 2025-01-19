@@ -1,6 +1,6 @@
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised').default;
-const { readFile } = require('../processContext.js');
+import * as chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import { readFile } from '../processContext.js';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
