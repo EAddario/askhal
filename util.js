@@ -1,6 +1,6 @@
-const chalk = require('chalk');
-const {program} = require("commander");
-const packageInfo = require("./package.json");
+import chalk from 'chalk';
+import { program } from 'commander';
+import packageInfo from './package.json' with { type: "json" };
 
 /**
  * Simple logging utility
@@ -86,4 +86,4 @@ function processCLIArguments() {
     return program;
 }
 
-module.exports = { checkEnvAPIKey, log, processCLIArguments };
+export { checkEnvAPIKey, log, processCLIArguments };
