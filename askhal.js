@@ -1,6 +1,6 @@
-const { checkEnvAPIKey, log, processCLIArguments } = require('./util.js');
-const { readFile } = require('./processContext.js');
-const { queryAI } = require('./queryOpenRouter.js');
+import { checkEnvAPIKey, log, processCLIArguments } from './util.js';
+import { readFile } from './processContext.js';
+import { queryAI } from './queryOpenRouter.js';
 
 /**
  * Main function
