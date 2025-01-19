@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha tests",
     "start": "node askhal.js"
+    "build": "esbuild askhal.js --bundle --minify --platform=node --outfile=./bin/askhal.cjs --format=cjs",
+    "package": "pkg ./bin/askhal.cjs -t latest-macos-arm64 --out-path ./bin",
+    "release": "npm run build && npm run package",
+    "clean": "rm -rf ./bin"
   },
   "keywords": [],
   "author": "Ed Addario",
@@ -28,6 +32,8 @@
       "@types/chai": "^5.0.1",
       "chai-as-promised": "^8.0.1",
       "@types/chai-as-promised": "^8.0.1"
+      "esbuild": "^0.24.2",
+      "pkg": "^5.8.1"
     },
   "pkg": {
     "scripts": "*.js",
