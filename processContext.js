@@ -1,8 +1,8 @@
-const fs = require('fs').promises;
-const officeParser = require('officeparser');
-const axios = require('axios');
-const { convert } = require('html-to-text');
-const { log } = require('./util.js');
+import { promises as fs } from 'fs';
+import officeParser from 'officeparser';
+import axios from 'axios';
+import { convert } from 'html-to-text';
+import { log } from './util.js';
 
 const validContextTypes = ['docx', 'html', 'odt', 'odp', 'ods', 'pdf', 'pptx', 'txt', 'xlsx'];
 
@@ -82,4 +82,4 @@ async function readFile(contextPath, contextType) {
     }
 }
 
-module.exports = { readFile };
+export { readFile };
