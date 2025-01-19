@@ -1,4 +1,4 @@
-# [Ask HAL](https://github.com/EAddario/askhal): A power-user CLI to interact with over 250 AI models!
+# [Ask HAL](https://github.com/EAddario/askhal): A power-user CLI to interact with over 290 AI models!
 
 `askhal` allows you to query all the AI models available in [OpenRouter](https://openrouter.ai/), giving you access to many low-level configuration options. The tool is designed to give users precise control over the model's behavior via context files, system and user prompts, and several fine-tuning parameters.
 
@@ -18,7 +18,7 @@
 
 ## Features
 
-- Query over 250 [AI models](https://openrouter.ai/models) available in OpenRouter.
+- Query over 290 [AI models](https://openrouter.ai/models) available in OpenRouter.
 - Add a system prompt to provide specific instructions to the model.
 - Enhance the AI's responses by including additional context stored in a file. `askhal` currently supports `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `txt`, and `xlsx` files.
 - Configure the model's behavior using [hyper-parameters](https://docs.novelcrafter.com/en/articles/8677980-tuning-your-model-settings) like temperature, top-k and top-p sampling, frequency penalty, etc.
@@ -40,7 +40,7 @@
 
 ***Note 1**: As you'll expect, the most capable models require you to use a paid account, but costs for individual use tend to be rather low. For example, the [OpenAI'a GPT-4o](https://openrouter.ai/openai/gpt-4o-2024-11-20) model costs less than \$0.0001 per token, which is roughly \$0.01 for a 100-word response. During the initial `askhal` development and testing phase, the total cost was less than $1.50
 
-***Note 2**: The program's author **is not affiliated** with OpenRouter and **does not** receive any compensation for promoting their services. 
+***Note 2**: The program's author **is not affiliated** with OpenRouter in any way and **does not** receive any compensation for promoting their services. 
 
 ### Installation
 
@@ -91,7 +91,7 @@ Below is a breakdown of the command-line options available for Ask HAL:
 
 **\*** Multiple context sources are possible by providing a comma separated list e.g. `--context 'file1.txt, file2.txt, file3.txt'`
 
-The files should be of the same type.
+The files must be of the same type.
 
 **\*\*** If the context exceeds the maximum supported by the chosen model, `askahl` will terminate with an error message along the lines of `This endpoint's maximum context length is X tokens. However, you requested about Y tokens (Y of text input). Please reduce the length of either one, or use the "middle-out" transform to compress your prompt automatically.`
 
