@@ -10,10 +10,10 @@ import { queryAI } from './queryOpenRouter.js';
 async function main() {
     const program = processCLIArguments();
     const aiModelName = program.opts().model;
-    let systemPrompt = program.opts().system;
+    const systemPrompt = program.opts().system;
     const contextPath = program.opts().context;
     const contextType = (program.opts().type).toLowerCase();
-    const userPrompt = program.opts().user;
+    let userPrompt = program.opts().user;
     const streamOutput = program.opts().responsive;
     const compressPrompt = program.opts().fit;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
@@ -40,8 +40,8 @@ async function main() {
         if (contextPath)
             context = await readFile(contextPath, contextType);
 
-        if (systemPrompt)
-            systemPrompt = (context) ? systemPrompt + ` ${context}` : systemPrompt;
+        if (context)
+            userPrompt += ` ${context}`;
 
     } catch (err) {
         log.error("could not process context file");
