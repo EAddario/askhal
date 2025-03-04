@@ -1,14 +1,14 @@
 {
   "type": "module",
   "name": "askhal",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "main": "",
   "scripts": {
     "test": "mocha tests",
     "start": "node askhal.js",
     "build": "esbuild askhal.js --bundle --minify --platform=node --outfile=./bin/askhal.cjs --format=cjs",
     "package": "pkg ./bin/askhal.cjs -t latest-macos-arm64 --out-path ./bin",
-    "release": "npm run build && npm run package",
+    "release": "npm run clean && npm run build && npm run package",
     "clean": "rm -rf ./bin"
   },
   "keywords": [],
