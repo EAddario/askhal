@@ -1,4 +1,4 @@
-# [Ask HAL](https://github.com/EAddario/askhal): A power-user CLI to interact with over 290 AI models!
+# [Ask HAL](https://github.com/EAddario/askhal): A power-user CLI to interact with over 320 AI models!
 
 `askhal` allows you to query all the AI models available in [OpenRouter](https://openrouter.ai/), giving you access to many low-level configuration options. The tool is designed to give users precise control over the model's behavior via context files, system and user prompts, and several fine-tuning parameters.
 
@@ -31,7 +31,7 @@
 
 ### Prerequisites
 
-1. A valid **OpenRouter** account. You can sign up [here*](https://openrouter.ai/). The free account allows you to query over [20 models](https://openrouter.ai/models?max_price=0), although some restrictions will apply (e.g. max 20 requests per minute and up to 200 requests per model per day).  
+1. A valid **OpenRouter** account. You can sign up [here*](https://openrouter.ai/). The free account allows you to query over [20 models](https://openrouter.ai/models?max_price=0), although some restrictions will apply (e.g. max 20 requests per minute and up to 200 requests per model per day).
 2. A valid OpenRouter [API key](https://openrouter.ai/settings/keys). There are two ways to configure it for `askhal` to work:
     - Set the key as an environment variable named **OPENROUTER_API_KEY** (e.g.: `export OPENROUTER_API_KEY="sk-or-v1-311..."`). This is the **recommended** approach, or
     - Pass it directly via the `-k` / `--key` command-line option. This value will take precedence even if you have the environment variable set
@@ -40,7 +40,7 @@
 
 ***Note 1**: As you'll expect, the most capable models require you to use a paid account, but costs for individual use tend to be rather low. For example, the [OpenAI'a GPT-4o](https://openrouter.ai/openai/gpt-4o-2024-11-20) model costs less than \$0.0001 per token, which is roughly \$0.01 for a 100-word response. During the initial `askhal` development and testing phase, the total cost was less than $1.50
 
-***Note 2**: The program's author **is not affiliated** with OpenRouter in any way and **does not** receive any compensation for promoting their services. 
+***Note 2**: The program's author **is not affiliated** with OpenRouter in any way and **does not** receive any compensation for promoting their services.
 
 ### Installation
 
