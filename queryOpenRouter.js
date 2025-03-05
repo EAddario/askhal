@@ -15,9 +15,9 @@ import { log } from './util.js';
  * @returns {Promise<void>}
  * @throws {Error} When AI query fails
  */
-async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, compressPrompt, apiKey, aiParameters) {
+async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, compressPrompt, baseURL, apiKey, aiParameters) {
     const client = new OpenAI({
-        baseURL: 'https://openrouter.ai/api/v1',
+        baseURL: baseURL,
         apiKey: apiKey,
         defaultHeaders: {
             "HTTP-Referer": "https://github.com/EAddario/askhal",

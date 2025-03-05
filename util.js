@@ -69,6 +69,7 @@ function processCLIArguments() {
         .option('-t, --type <extension>', 'context file type (docx, odt, odp, ods, pdf, pptx, txt, xlsx)', 'txt')
         .option('-f, --fit', "when set, it will compress prompts to fit the model's maximum context size", false)
         .option('-r, --responsive', "when set, it will stream the model's output as it's generated instead of waiting to display all at once", false)
+        .option('-p, --url <value>', 'URL for an OpenAPI-compatible inference provider', 'https://openrouter.ai/api/v1')
         .option('-k, --key <value>', 'valid OpenRouter API Key')
         .option('--temperature <value>', 'range from 0.0 to 2.0 (default 1.0)', (value) => parseNumericalValue(value, 'Temperature', 'float', 0.0, 2.0))
         .option('--topk <value>', '0 or higher (default 0)', (value) => parseNumericalValue(value, 'Top-K', 'int', 0, Number.MAX_SAFE_INTEGER))

@@ -17,6 +17,7 @@ async function main() {
     const streamOutput = program.opts().responsive;
     const compressPrompt = program.opts().fit;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
+    const baseURL = program.opts().url;
 
     /**
      * @typedef {Object} AIParameters
@@ -49,7 +50,7 @@ async function main() {
     }
 
     try {
-        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, compressPrompt, apiKey, aiParameters);
+        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, compressPrompt, baseURL, apiKey, aiParameters);
 
     } catch (err) {
         log.error("could not query AI model");
