@@ -57,19 +57,19 @@ describe('readContext() tests', () => {
     it('should throw an error for invalid Excel file', async () => {
         const filePath = './tests/assets/invalid.xlsx';
         const fileType = 'xlsx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: Error");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for invalid PowerPoint file', async () => {
         const filePath = './tests/assets/invalid.pptx';
         const fileType = 'pptx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: Error");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for invalid Word file', async () => {
         const filePath = './tests/assets/invalid.docx';
         const fileType = 'docx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: Error");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for file not found', async () => {
