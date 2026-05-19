@@ -12,10 +12,11 @@ import { log } from './log.js';
  * @param {boolean} options.stream - Whether to stream the output
  * @param {boolean} options.compress - Whether to compress the prompt to fit model's maximum context size
  * @param {object} options.aiParameters - AI fine-tuning parameters
+ * @param {function} [options.onOutput] - Callback receiving formatted output text (replaces stdout/log)
  * @returns {Promise<void>}
  * @throws {Error} When AI query fails
  */
-async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream, compress, aiParameters } = {}) {
+async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream, compress, aiParameters, onOutput } = {}) {
     let messages = [{ "role": "user", "content": userPrompt }];
 
     if (systemMessage)
@@ -42,12 +43,15 @@ async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream,
         log.info('');
         if (stream) {
             for await (const chunk of result) {
-                process.stdout.write(chalk.cyanBright(chunk.choices[0].delta.content || ''));
+                const text = chalk.cyanBright(chunk.choices[0].delta.content || '');
+                if (onOutput) onOutput(text);
+                else process.stdout.write(text);
             }
             log.info('');
         } else {
-            const iaModelResponse = wrap(result.choices[0].message.content, { width: 160, indent: '' });
-            log.message(iaModelResponse);
+            const text = wrap(result.choices[0].message.content, { width: 160, indent: '' });
+            if (onOutput) onOutput(text);
+            else log.message(text);
         }
         log.info('');
     } catch (err) {
