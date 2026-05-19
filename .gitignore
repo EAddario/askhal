@@ -297,6 +297,11 @@ x86/
 *.zip
 *.zst
 
+# ---------------
+# General Agentic
+# ---------------
+.ai/
+
 # -----
 # C/C++
 # -----
@@ -583,3 +588,8 @@ crash.log
 override.tf
 override.tf.json
 terraform.rc
+
+# --------------
+Project Specific
+# --------------
+tests/assets/access_denied.txt
