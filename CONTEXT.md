@@ -4,7 +4,7 @@
 
 Ask HAL is a Node.js CLI tool for querying AI models via the [OpenRouter](https://openrouter.ai/) API. It supports system prompts, file/URL context injection, streaming output, prompt compression, and fine-tuning hyperparameters.
 
-- **Version**: 1.11.2
+- **Version**: 1.23.3
 - **License**: MIT
 - **Package**: `npm` (ES modules, `"type": "module"`)
 

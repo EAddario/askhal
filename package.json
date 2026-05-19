@@ -1,14 +1,13 @@
 {
   "type": "module",
   "name": "askhal",
-  "version": "1.11.2",
+  "version": "1.23.3",
   "main": "",
   "scripts": {
     "test": "mocha tests",
     "start": "node askhal.js",
-    "build": "esbuild askhal.js --bundle --minify --platform=node --inject:./polly-shims/fetch-shim.js --outfile=./bin/askhal.cjs --format=cjs",
-    "package": "pkg ./bin/askhal.cjs -t latest-macos-arm64 --out-path ./bin",
-    "release": "npm run clean && npm run build && npm run package",
+    "package": "bun build askhal.js --compile --minify --outfile ./bin/askhal",
+    "release": "npm run clean && npm run package",
     "clean": "rm -rf ./bin"
   },
   "keywords": [],
@@ -29,18 +28,9 @@
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.10",
+    "bun": "^1.3.14",
     "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
-    "esbuild": "^0.28.0",
-    "mocha": "^11.7.5",
-    "pkg": "^5.8.1",
-    "undici": "^5.29.0"
-  },
-  "pkg": {
-    "scripts": "*.js",
-    "targets": [
-      "latest-macos-arm64"
-    ],
-    "outputPath": "bin"
+    "mocha": "^11.7.5"
   }
 }
