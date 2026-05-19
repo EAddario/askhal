@@ -1,5 +1,5 @@
 import { checkEnvAPIKey, log, processCLIArguments } from './util.js';
-import { readFile } from './processContext.js';
+import { readContext } from './readContext.js';
 import { queryAI } from './queryOpenRouter.js';
 
 /**
@@ -39,7 +39,7 @@ async function main() {
     let context;
     try {
         if (contextPath)
-            context = await readFile(contextPath, contextType);
+            context = await readContext(contextPath, contextType);
 
         if (context)
             userPrompt += ` ${context}`;

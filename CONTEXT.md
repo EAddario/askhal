@@ -4,9 +4,19 @@
 
 Ask HAL is a Node.js CLI tool for querying AI models via the [OpenRouter](https://openrouter.ai/) API. It supports system prompts, file/URL context injection, streaming output, prompt compression, and fine-tuning hyperparameters.
 
-- **Version**: 1.6.1
+- **Version**: 1.7.3
 - **License**: MIT
 - **Package**: `npm` (ES modules, `"type": "module"`)
+
+## Domain Concepts
+
+- **Context** — additional information appended to the user prompt before querying the AI model. Comes from files, URLs, or office documents.
+- **Context Reader** — anything that reads context from a source. Three adapters exist:
+  - **Text Context Reader** — reads `txt` files from the local filesystem
+  - **Web Context Reader** — fetches `html` from a URL and strips markup
+  - **Office Context Reader** — parses `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `xlsx` via officeparser
+- **Context Source** — a single file path or URL providing context
+- **Context Type** — the format identifier (`docx`, `html`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `txt`, `xlsx`)
 
 ## Architecture
 
@@ -19,18 +29,21 @@ askhal.js                  — Orchestrator: CLI parse → context read → AI q
 
 ## Source Layout
 
-| File                    | Role                                                                                                  | Key Exports                                    |
-|-------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| `askhal.js`             | Main entry; wires everything together                                                                 | —                                              |
-| `util.js:56`            | `commander` CLI setup, numerical param validation, logging                                            | `processCLIArguments`, `checkEnvAPIKey`, `log` |
-| `processContext.js:16`  | Reads context from files (txt, docx, pdf, pptx, xlsx, odt, odp, ods) or URLs (html)                   | `readFile`                                     |
-| `queryOpenRouter.js:18` | Creates OpenAI client pointed at OpenRouter, sends chat completions, handles stream/non-stream output | `queryAI`                                      |
+| File                     | Role                                                                                                           | Key Exports                                    |
+|--------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| `askhal.js`              | Main entry; wires everything together                                                                          | —                                              |
+| `util.js:56`             | `commander` CLI setup, numerical param validation, logging                                                     | `processCLIArguments`, `checkEnvAPIKey`, `log` |
+| `readContext.js`         | Dispatcher: routes to the right Context Reader, handles concatenation, whitespace normalization, error mapping | `readContext`                                  |
+| `textContextReader.js`   | Text Context Reader: reads `txt` files from the local filesystem                                               | `textContextReader`                            |
+| `webContextReader.js`    | Web Context Reader: fetches `html` from URLs via axios, strips markup via html-to-text                         | `webContextReader`                             |
+| `officeContextReader.js` | Office Context Reader: parses `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `xlsx` via officeparser              | `officeContextReader`                          |
+| `queryOpenRouter.js:18`  | Creates OpenAI client pointed at OpenRouter, sends chat completions, handles stream/non-stream output          | `queryAI`                                      |
 
 ## Data Flow
 
 1. `processCLIArguments()` parses args via commander (required: `--model`, `--user`; optional: `--system`, `--context`, `--type`, `--fit`, `--responsive`, `--url`, `--key`, hyperparams)
 2. API key resolved: `--key` flag takes precedence, falls back to `OPENROUTER_API_KEY` env var
-3. If `--context` is set, `readFile(contextPath, contextType)` parses the source(s) and the result is **appended to the user prompt** (not the system prompt)
+3. If `--context` is set, `readContext(contextPath, contextType)` dispatches to the appropriate Context Reader and the result is **appended to the user prompt** (not the system prompt)
 4. `queryAI()` creates an `OpenAI` client at `baseURL` (default `https://openrouter.ai/api/v1`), sends `{model, messages, transforms, stream, ...hyperparams}`
 5. If `--responsive`: streams chunks via `for await`; otherwise: word-wraps full response to 160 columns
 
