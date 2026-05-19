@@ -18,7 +18,7 @@
 
 ## Features
 
-- Query over 290 [AI models](https://openrouter.ai/models) available in OpenRouter.
+- Query [AI models](https://openrouter.ai/models) available in OpenRouter (default).
 - Add a system prompt to provide specific instructions to the model.
 - Enhance the AI's responses by including additional context stored in a file. `askhal` currently supports `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `txt`, and `xlsx` files.
 - Configure the model's behavior using [hyper-parameters](https://docs.novelcrafter.com/en/articles/8677980-tuning-your-model-settings) like temperature, top-k and top-p sampling, frequency penalty, etc.
