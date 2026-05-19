@@ -1,40 +1,30 @@
-import OpenAI  from 'openai';
 import wrap from 'word-wrap';
 import chalk from 'chalk';
 import { log } from './util.js';
 
 /**
  * Queries an AI model with given parameters
+ * @param {object} client - Pre-configured OpenAI client instance
  * @param {string} aiModelName - Name of the AI model to use
  * @param {string} systemMessage - System context message
  * @param {string} userPrompt - User query prompt
- * @param {boolean} outputStream - Whether to stream the output
- * @param {boolean} compressPrompt - Whether to compress the prompt to fit model's maximum context size
- * @param {string} apiKey - OpenRouter API Key
- * @param {object} aiParameters - AI fine-tuning parameters
+ * @param {object} options - Query options
+ * @param {boolean} options.stream - Whether to stream the output
+ * @param {boolean} options.compress - Whether to compress the prompt to fit model's maximum context size
+ * @param {object} options.aiParameters - AI fine-tuning parameters
  * @returns {Promise<void>}
  * @throws {Error} When AI query fails
  */
-async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, compressPrompt, baseURL, apiKey, aiParameters) {
-    const client = new OpenAI({
-        baseURL: baseURL,
-        apiKey: apiKey,
-        defaultHeaders: {
-            "HTTP-Referer": "https://github.com/EAddario/askhal",
-            "X-Title": "Ask HAL"
-        }
-    });
-
+async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream, compress, aiParameters } = {}) {
     let messages = [{ "role": "user", "content": userPrompt }];
 
     if (systemMessage)
-        messages. unshift({ "role": "system", "content": systemMessage });
+        messages.unshift({ "role": "system", "content": systemMessage });
 
     let openRouterRequest = {
         model: aiModelName,
         messages: messages,
-        transforms: [],
-        stream: outputStream,
+        stream: stream,
         temperature: (aiParameters.TEMPERATURE) && aiParameters.TEMPERATURE,
         top_p: (aiParameters.TOP_P) && aiParameters.TOP_P,
         top_k: (aiParameters.TOP_K) && aiParameters.TOP_K,
@@ -43,14 +33,14 @@ async function queryAI(aiModelName, systemMessage, userPrompt, outputStream, com
         repetition_penalty: (aiParameters.REPETITION_PENALTY) && aiParameters.REPETITION_PENALTY,
     };
 
-    if (compressPrompt)
-        openRouterRequest.transforms = "middle-out";
+    if (compress)
+        openRouterRequest.transforms = ["middle-out"];
 
     try {
         const result = await client.chat.completions.create(openRouterRequest);
 
         log.info('');
-        if (outputStream) {
+        if (stream) {
             for await (const chunk of result) {
                 process.stdout.write(chalk.cyanBright(chunk.choices[0].delta.content || ''));
             }

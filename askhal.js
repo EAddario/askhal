@@ -1,6 +1,7 @@
 import { checkEnvAPIKey, log, processCLIArguments } from './util.js';
 import { readContext } from './readContext.js';
 import { queryAI } from './queryOpenRouter.js';
+import OpenAI from 'openai';
 
 /**
  * Main function
@@ -18,6 +19,15 @@ async function main() {
     const compressPrompt = program.opts().fit;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
     const baseURL = program.opts().url;
+
+    const client = new OpenAI({
+        baseURL: baseURL,
+        apiKey: apiKey,
+        defaultHeaders: {
+            "HTTP-Referer": "https://github.com/EAddario/askhal",
+            "X-Title": "Ask HAL"
+        }
+    });
 
     /**
      * @typedef {Object} AIParameters
@@ -50,7 +60,11 @@ async function main() {
     }
 
     try {
-        await queryAI(aiModelName, systemPrompt, userPrompt, streamOutput, compressPrompt, baseURL, apiKey, aiParameters);
+        await queryAI(client, aiModelName, systemPrompt, userPrompt, {
+            stream: streamOutput,
+            compress: compressPrompt,
+            aiParameters,
+        });
 
     } catch (err) {
         log.error("could not query AI model");
