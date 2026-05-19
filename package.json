@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha tests",
     "start": "node askhal.js",
-    "build": "esbuild askhal.js --bundle --minify --platform=node --inject:./fetch-shim.js --outfile=./bin/askhal.cjs --format=cjs",
+    "build": "esbuild askhal.js --bundle --minify --platform=node --inject:./polly-shims/fetch-shim.js --outfile=./bin/askhal.cjs --format=cjs",
     "package": "pkg ./bin/askhal.cjs -t latest-macos-arm64 --out-path ./bin",
     "release": "npm run clean && npm run build && npm run package",
     "clean": "rm -rf ./bin"
