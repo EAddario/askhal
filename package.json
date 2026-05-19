@@ -14,27 +14,27 @@
   "keywords": [],
   "author": "Ed Addario",
   "license": "MIT",
-  "description": "Ask HAL: A power-user tool to interact with over 250 AI models!",
+  "description": "Ask HAL: A power-user tool to interact with AI models!",
   "dependencies": {
-    "openai": "^4.86.1",
-    "officeparser": "^5.1.1",
-    "chalk": "^5.4.1",
-    "word-wrap": "^1.2.5",
-    "commander": "^13.1.0",
-    "axios": "^1.8.1",
-    "html-to-text": "^9.0.5",
-    "@types/html-to-text": "^9.0.4"
+    "@types/html-to-text": "^9.0.4",
+    "axios": "^1.16.1",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "html-to-text": "^10.0.0",
+    "officeparser": "^5.2.2",
+    "openai": "^6.38.0",
+    "word-wrap": "^1.2.5"
   },
-    "devDependencies": {
-      "mocha": "^11.1.0",
-      "@types/mocha": "^10.0.10",
-      "chai": "^5.2.0",
-      "@types/chai": "^5.0.1",
-      "chai-as-promised": "^8.0.1",
-      "@types/chai-as-promised": "^8.0.1",
-      "esbuild": "^0.25.0",
-      "pkg": "^5.8.1"
-    },
+  "devDependencies": {
+    "@types/chai": "^5.2.3",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/mocha": "^10.0.10",
+    "chai": "^6.2.2",
+    "chai-as-promised": "^8.0.2",
+    "esbuild": "^0.28.0",
+    "mocha": "^11.7.5",
+    "pkg": "^5.8.1"
+  },
   "pkg": {
     "scripts": "*.js",
     "targets": [
