@@ -21,30 +21,32 @@ Ask HAL is a Node.js CLI tool for querying AI models via the [OpenRouter](https:
 ## Architecture
 
 ```
-askhal.js                  — Orchestrator: CLI parse → context read → AI query
-  ├── util.js              — CLI arg parsing (commander), logging (chalk), env vars
-  ├── processContext.js    — File/URL ingestion (txt, html, office formats)
-  └── queryOpenRouter.js   — OpenRouter API call via OpenAI SDK
+askhal.js                  — CLI entry: parse args, resolve key, build client
+  └── run.js               — Pipeline: context read → concat → AI query
+        ├── readContext.js — Context dispatcher
+        ├── queryOpenRouter.js — AI query
+        └── util.js        — CLI setup, logging, env vars
 ```
 
 ## Source Layout
 
 | File                     | Role                                                                                                           | Key Exports                                    |
 |--------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| `askhal.js`              | Main entry; wires everything together                                                                          | —                                              |
+| `askhal.js`              | CLI entry: parses args, resolves API key, constructs OpenAI client, calls `run()`                              | —                                              |
+| `run.js`                 | Pipeline orchestrator: reads context, appends to prompt, queries AI                                            | `run`                                          |
 | `util.js:56`             | `commander` CLI setup, numerical param validation, logging                                                     | `processCLIArguments`, `checkEnvAPIKey`, `log` |
 | `readContext.js`         | Dispatcher: routes to the right Context Reader, handles concatenation, whitespace normalization, error mapping | `readContext`                                  |
 | `textContextReader.js`   | Text Context Reader: reads `txt` files from the local filesystem                                               | `textContextReader`                            |
 | `webContextReader.js`    | Web Context Reader: fetches `html` from URLs via axios, strips markup via html-to-text                         | `webContextReader`                             |
 | `officeContextReader.js` | Office Context Reader: parses `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `xlsx` via officeparser              | `officeContextReader`                          |
-| `queryOpenRouter.js:10`   | Sends chat completion request via an injected OpenAI client, handles stream/non-stream output | `queryAI`                                      |
+| `queryOpenRouter.js:10`  | Sends chat completion request via an injected OpenAI client, handles stream/non-stream output                  | `queryAI`                                      |
 
 ## Data Flow
 
 1. `processCLIArguments()` parses args via commander (required: `--model`, `--user`; optional: `--system`, `--context`, `--type`, `--fit`, `--responsive`, `--url`, `--key`, hyperparams)
 2. API key resolved: `--key` flag takes precedence, falls back to `OPENROUTER_API_KEY` env var
 3. If `--context` is set, `readContext(contextPath, contextType)` dispatches to the appropriate Context Reader and the result is **appended to the user prompt** (not the system prompt)
-4. `main()` constructs an `OpenAI` client with the resolved `baseURL` and `apiKey`, then passes it to `queryAI()` which sends `{model, messages, stream, ...hyperparams}`
+4. `main()` constructs an `OpenAI` client with the resolved `baseURL` and `apiKey`, then calls `run()` which passes it to `queryAI()` to send `{model, messages, stream, ...hyperparams}`
 5. If `--responsive`: streams chunks via `for await`; otherwise: word-wraps full response to 160 columns
 
 ## Supported Context Formats

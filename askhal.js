@@ -1,44 +1,29 @@
 import { checkEnvAPIKey, log, processCLIArguments } from './util.js';
-import { readContext } from './readContext.js';
-import { queryAI } from './queryOpenRouter.js';
+import { run } from './run.js';
 import OpenAI from 'openai';
 
-/**
- * Main function
- * @returns {Promise<void>}
- * @throws {Error} When file reading or AI query fails
- */
 async function main() {
     const program = processCLIArguments();
-    const aiModelName = program.opts().model;
-    const systemPrompt = program.opts().system;
+    const model = program.opts().model;
+    const system = program.opts().system;
     const contextPath = program.opts().context;
     const contextType = (program.opts().type).toLowerCase();
-    let userPrompt = program.opts().user;
-    const streamOutput = program.opts().responsive;
-    const compressPrompt = program.opts().fit;
+    const user = program.opts().user;
+    const stream = program.opts().responsive;
+    const compress = program.opts().fit;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
     const baseURL = program.opts().url;
 
     const client = new OpenAI({
-        baseURL: baseURL,
-        apiKey: apiKey,
+        baseURL,
+        apiKey,
         defaultHeaders: {
             "HTTP-Referer": "https://github.com/EAddario/askhal",
             "X-Title": "Ask HAL"
         }
     });
 
-    /**
-     * @typedef {Object} AIParameters
-     * @property {number} [TEMPERATURE] - Range: [0.0, 2.0]. Controls the randomness of the generated text.
-     * @property {number} [TOP_P] - Range: [0.0, 1.0]. Controls the diversity of the generated text.
-     * @property {number} [TOP_K] - Range: [1, Infinity). Controls the diversity of the generated text.
-     * @property {number} [FREQUENCY_PENALTY] - Range: [-2.0, 2.0]. Penalizes the frequency of a token in the generated text.
-     * @property {number} [PRESENCE_PENALTY] - Range: [-2.0, 2.0]. Penalizes the presence of a token in the generated text.
-     * @property {number} [REPETITION_PENALTY] - Range: [0.0, 2.0]. Penalizes the repetition of a token in the generated text.
-     */
-    let aiParameters = {};
+    const aiParameters = {};
     aiParameters.TEMPERATURE = program.opts().temperature;
     aiParameters.TOP_K = program.opts().topk;
     aiParameters.TOP_P = program.opts().topp;
@@ -46,35 +31,9 @@ async function main() {
     aiParameters.REPETITION_PENALTY = program.opts().repetition;
     aiParameters.PRESENCE_PENALTY = program.opts().presence;
 
-    let context;
-    try {
-        if (contextPath)
-            context = await readContext(contextPath, contextType);
-
-        if (context)
-            userPrompt += ` ${context}`;
-
-    } catch (err) {
-        log.error("could not process context file");
-        throw err;
-    }
-
-    try {
-        await queryAI(client, aiModelName, systemPrompt, userPrompt, {
-            stream: streamOutput,
-            compress: compressPrompt,
-            aiParameters,
-        });
-
-    } catch (err) {
-        log.error("could not query AI model");
-        throw err;
-    }
+    await run(client, model, system, user, { contextPath, contextType, stream, compress, aiParameters });
 }
 
-/**
- * Program entry point
- */
 main()
     .catch((err) => {
         log.error(`Program terminated with error code '${err.code}'\n${err.message} `);
