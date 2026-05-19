@@ -1,33 +1,6 @@
-import chalk from 'chalk';
 import { program } from 'commander';
 import packageInfo from './package.json' with { type: "json" };
-
-/**
- * Simple logging utility
- * @type {{success: (function(*): void)}}
- * @type {{error: (function(*): void)}}
- * @type {{message: (function(*): void)}}
- * @type {{info: (function(*): void)}}
- */
-const log = {
-    info: (msg) => console.log(chalk.yellowBright(msg)),
-    message: (msg) => console.log(chalk.cyanBright(msg)),
-    success: (msg) => console.log(chalk.greenBright(msg)),
-    error: (msg) => console.error(chalk.redBright(msg))
-};
-
-/**
- * Check if API Key is defined, otherwise terminate the program
- * @param {string} env – Required API Key to proceed
- */
-function checkEnvAPIKey(env) {
-    if (!process.env[env]) {
-        log.error("OpenRouter API Key not defined in environment variable");
-        throw new Error("OpenRouter API Key not defined in environment variable");
-    }
-
-    return process.env[env];
-}
+import { log } from './log.js';
 
 function parseNumericalValue(value, name, type, min, max) {
     const parsedValue = (() => {
@@ -49,10 +22,6 @@ function parseNumericalValue(value, name, type, min, max) {
     return parsedValue;
 }
 
-/**
- * Process command line arguments
- * @returns {Object}
- */
 function processCLIArguments() {
     program
         .name('askhal')
@@ -62,7 +31,7 @@ function processCLIArguments() {
            line argument using the -k or --key option. If both are set, the command line argument will take precedence.`)
         .version(packageInfo.version, '-v, --version', "displays the program's version")
         .usage('--model <name> --user <prompt> [options]')
-        .requiredOption('-m, --model <name>', 'name of the OpenRouter AI model to use (required)') // openrouter/auto
+        .requiredOption('-m, --model <name>', 'name of the OpenRouter AI model to use (required)')
         .requiredOption('-u, --user <prompt>', 'user prompt (required)')
         .option('-s, --system <prompt>', "instructions to guide the model's behavior, set the tone, or specify the desired output")
         .option('-c, --context <file>', "location of a file with additional context. It will be appended at the end of the system's prompt")
@@ -87,4 +56,4 @@ function processCLIArguments() {
     return program;
 }
 
-export { checkEnvAPIKey, log, processCLIArguments };
+export { processCLIArguments };

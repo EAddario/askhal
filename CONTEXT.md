@@ -23,23 +23,27 @@ Ask HAL is a Node.js CLI tool for querying AI models via the [OpenRouter](https:
 ```
 askhal.js                  — CLI entry: parse args, resolve key, build client
   └── run.js               — Pipeline: context read → concat → AI query
+        ├── cli.js         — CLI argument parsing (commander)
+        ├── env.js         — API key resolution
+        ├── log.js         — Colored console logging (chalk)
         ├── readContext.js — Context dispatcher
-        ├── queryOpenRouter.js — AI query
-        └── util.js        — CLI setup, logging, env vars
+        └── queryOpenRouter.js — AI query (OpenAI SDK)
 ```
 
 ## Source Layout
 
-| File                     | Role                                                                                                           | Key Exports                                    |
-|--------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| `askhal.js`              | CLI entry: parses args, resolves API key, constructs OpenAI client, calls `run()`                              | —                                              |
-| `run.js`                 | Pipeline orchestrator: reads context, appends to prompt, queries AI                                            | `run`                                          |
-| `util.js:56`             | `commander` CLI setup, numerical param validation, logging                                                     | `processCLIArguments`, `checkEnvAPIKey`, `log` |
-| `readContext.js`         | Dispatcher: routes to the right Context Reader, handles concatenation, whitespace normalization, error mapping | `readContext`                                  |
-| `textContextReader.js`   | Text Context Reader: reads `txt` files from the local filesystem                                               | `textContextReader`                            |
-| `webContextReader.js`    | Web Context Reader: fetches `html` from URLs via axios, strips markup via html-to-text                         | `webContextReader`                             |
-| `officeContextReader.js` | Office Context Reader: parses `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `xlsx` via officeparser              | `officeContextReader`                          |
-| `queryOpenRouter.js:10`  | Sends chat completion request via an injected OpenAI client, handles stream/non-stream output                  | `queryAI`                                      |
+| File                     | Role                                                                                                           | Key Exports           |
+|--------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------|
+| `askhal.js`              | CLI entry: parses args, resolves API key, constructs OpenAI client, calls `run()`                              | —                     |
+| `run.js`                 | Pipeline orchestrator: reads context, appends to prompt, queries AI                                            | `run`                 |
+| `cli.js:40`              | `commander` CLI setup, numerical param validation                                                              | `processCLIArguments` |
+| `log.js`                 | Colored console logging via chalk (yellow=info, cyan=response, green=success, red=error)                       | `log`                 |
+| `env.js`                 | API key resolution from environment variables                                                                  | `checkEnvAPIKey`      |
+| `readContext.js`         | Dispatcher: routes to the right Context Reader, handles concatenation, whitespace normalization, error mapping | `readContext`         |
+| `textContextReader.js`   | Text Context Reader: reads `txt` files from the local filesystem                                               | `textContextReader`   |
+| `webContextReader.js`    | Web Context Reader: fetches `html` from URLs via axios, strips markup via html-to-text                         | `webContextReader`    |
+| `officeContextReader.js` | Office Context Reader: parses `docx`, `odt`, `odp`, `ods`, `pdf`, `pptx`, `xlsx` via officeparser              | `officeContextReader` |
+| `queryOpenRouter.js:10`  | Sends chat completion request via an injected OpenAI client, handles stream/non-stream output                  | `queryAI`             |
 
 ## Data Flow
 

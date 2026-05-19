@@ -1,4 +1,4 @@
-import { log } from './util.js';
+import { log } from './log.js';
 import { textContextReader } from './textContextReader.js';
 import { webContextReader } from './webContextReader.js';
 import { officeContextReader } from './officeContextReader.js';

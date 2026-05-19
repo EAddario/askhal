@@ -1,6 +1,6 @@
 import { readContext } from './readContext.js';
 import { queryAI } from './queryOpenRouter.js';
-import { log } from './util.js';
+import { log } from './log.js';
 
 async function run(client, model, system, user, { contextPath, contextType, stream, compress, aiParameters } = {}) {
     try {

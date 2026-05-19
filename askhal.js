@@ -1,4 +1,6 @@
-import { checkEnvAPIKey, log, processCLIArguments } from './util.js';
+import { processCLIArguments } from './cli.js';
+import { checkEnvAPIKey } from './env.js';
+import { log } from './log.js';
 import { run } from './run.js';
 import OpenAI from 'openai';
 

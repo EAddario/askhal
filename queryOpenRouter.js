@@ -1,6 +1,6 @@
 import wrap from 'word-wrap';
 import chalk from 'chalk';
-import { log } from './util.js';
+import { log } from './log.js';
 
 /**
  * Queries an AI model with given parameters
