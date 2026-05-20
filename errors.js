@@ -64,8 +64,11 @@ export class ProviderError extends AskhalError {
     if (this.httpStatus === 429) {
       return `Rate limited (${this.httpStatus}) by ${this.providerName} for model ${this.modelName}. Wait and retry.`;
     }
-    if (this.httpStatus === 401 || this.httpStatus === 403) {
+    if (this.httpStatus === 401) {
       return `Authentication failed (${this.httpStatus}) with ${this.providerName}. Check your AI_PROVIDER_KEY.`;
+    }
+    if (this.httpStatus === 403) {
+      return `Access Forbidden (${this.httpStatus}) with ${this.providerName}. You do not have permission to access the resource.`;
     }
     if (this.httpStatus === 404) {
       return `Model '${this.modelName}' not found on ${this.providerName}. Verify the model identifier.`;

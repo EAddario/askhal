@@ -84,6 +84,11 @@ describe('Error Classes', () => {
       expect(error.format()).to.equal('Authentication failed (401) with openai. Check your AI_PROVIDER_KEY.');
     });
 
+    it('should format 403 message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 403, { error: 'Unauthorized' }, 'Access Forbidden');
+      expect(error.format()).to.equal('Access Forbidden (403) with openai. You do not have permission to access the resource.');
+    });
+
     it('should format 404 message correctly', () => {
       const error = new ProviderError('openai', 'gpt-4', 404, { error: 'Not Found' }, 'Not Found');
       expect(error.format()).to.equal("Model 'gpt-4' not found on openai. Verify the model identifier.");
