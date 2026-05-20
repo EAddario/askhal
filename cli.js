@@ -1,4 +1,4 @@
-import { program } from 'commander';
+import { Command } from 'commander';
 import packageInfo from './package.json' with { type: "json" };
 import { log } from './log.js';
 import { InputError } from './errors.js';
@@ -23,6 +23,7 @@ function parseNumericalValue(value, name, type, min, max) {
 }
 
 function processCLIArguments() {
+    const program = new Command();
     program
         .name('askhal')
         .description(`Ask HAL  - Query AI models from various providers\n
@@ -48,11 +49,21 @@ function processCLIArguments() {
         .option('--presence <value>', 'range from -2.0 to 2.0 (default 0)', (value) => parseNumericalValue(value, 'Presence', 'float', -2.0, 2.0))
         .addHelpText('after','\nFor more information and usage examples please visit https://github.com/EAddario/askhal\n');
 
-    if (process.argv.length < 3) {
-        program.help()
-    }
+    // Prevent process.exit on parsing errors in tests
+    program.exitOverride();
 
-    program.parse(process.argv);
+    try {
+        if (process.argv.length < 3) {
+            program.help()
+        }
+
+        program.parse(process.argv);
+    } catch (err) {
+        if (err.code === 'commander.helpDisplayed' || err.code === 'commander.help') {
+            process.exit(0);
+        }
+        throw err;
+    }
     return program;
 }
 
