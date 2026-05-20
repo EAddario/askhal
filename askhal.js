@@ -33,7 +33,7 @@ async function main() {
     aiParameters.REPETITION_PENALTY = program.opts().repetition;
     aiParameters.PRESENCE_PENALTY = program.opts().presence;
 
-    await run(client, model, system, user, { contextPath, contextType, stream, compress, aiParameters });
+    await run(client, model, system, user, { contextPath, contextType, stream, compress, aiParameters, providerName });
 }
 
 main()

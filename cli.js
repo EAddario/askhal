@@ -1,6 +1,7 @@
 import { program } from 'commander';
 import packageInfo from './package.json' with { type: "json" };
 import { log } from './log.js';
+import { InputError } from './errors.js';
 
 function parseNumericalValue(value, name, type, min, max) {
     const parsedValue = (() => {
@@ -15,8 +16,7 @@ function parseNumericalValue(value, name, type, min, max) {
     })();
 
     if (isNaN(parsedValue) || parsedValue < min || parsedValue > max) {
-        log.error(`${name} must be between ${min} and ${max}`);
-        throw new Error(`${name} must be between ${min} and ${max}`);
+        throw new InputError(name, value, `between ${min} and ${max}`);
     }
 
     return parsedValue;

@@ -1,6 +1,7 @@
 import wrap from 'word-wrap';
 import chalk from 'chalk';
 import { log } from './log.js';
+import { ProviderError } from './errors.js';
 
 /**
  * Queries an AI model with given parameters
@@ -13,10 +14,11 @@ import { log } from './log.js';
  * @param {boolean} options.compress - Whether to compress the prompt to fit model's maximum context size
  * @param {object} options.aiParameters - AI fine-tuning parameters
  * @param {function} [options.onOutput] - Callback receiving formatted output text (replaces stdout/log)
+ * @param {string} [options.providerName='openrouter'] - Name of the inference provider
  * @returns {Promise<void>}
- * @throws {Error} When AI query fails
+ * @throws {ProviderError} When AI query fails
  */
-async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream, compress, aiParameters, onOutput } = {}) {
+async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream, compress, aiParameters, onOutput, providerName = 'openrouter' } = {}) {
     let messages = [{ "role": "user", "content": userPrompt }];
 
     if (systemMessage)
@@ -55,13 +57,10 @@ async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream,
         }
         log.info('');
     } catch (err) {
-        log.error(`could not query model [${aiModelName}] - ${err.message}`);
         if (err.response) {
-            log.error(`status: ${err.response.status}`);
-            log.error(`data: ${JSON.stringify(err.response.data)}`);
+            throw new ProviderError(providerName, aiModelName, err.response.status, err.response.data, err.message);
         }
-
-        throw new Error(`could not query model [${aiModelName}]`);
+        throw new ProviderError(providerName, aiModelName, err.status || 500, err.error || err, err.message);
     }
 }
 

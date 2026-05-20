@@ -64,18 +64,39 @@ describe('Error Classes', () => {
 
   describe('ProviderError', () => {
     it('should extend AskhalError', () => {
-      const error = new ProviderError('openai', 'gpt-4', 429, { error: 'Rate limit exceeded' });
+      const error = new ProviderError('openai', 'gpt-4', 429, { error: 'Rate limit exceeded' }, 'Rate limit exceeded');
       expect(error).to.be.an.instanceOf(AskhalError);
       expect(error.name).to.equal('ProviderError');
       expect(error.providerName).to.equal('openai');
       expect(error.modelName).to.equal('gpt-4');
       expect(error.httpStatus).to.equal(429);
       expect(error.responseData).to.deep.equal({ error: 'Rate limit exceeded' });
+      expect(error.originalMessage).to.equal('Rate limit exceeded');
     });
 
-    it('should format message with provider, model and status', () => {
-      const error = new ProviderError('openai', 'gpt-4', 429, { error: 'Rate limit exceeded' });
-      expect(error.format()).to.equal('Provider error (429) from openai for model gpt-4: {"error":"Rate limit exceeded"}');
+    it('should format 429 message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 429, { error: 'Rate limit exceeded' }, 'Rate limit exceeded');
+      expect(error.format()).to.equal('Rate limited (429) by openai for model gpt-4. Wait and retry.');
+    });
+
+    it('should format 401 message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 401, { error: 'Unauthorized' }, 'Unauthorized');
+      expect(error.format()).to.equal('Authentication failed (401) with openai. Check your ASKHAL_API_KEY.');
+    });
+
+    it('should format 404 message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 404, { error: 'Not Found' }, 'Not Found');
+      expect(error.format()).to.equal("Model 'gpt-4' not found on openai. Verify the model identifier.");
+    });
+
+    it('should format 500 message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 503, { error: 'Service Unavailable' }, 'Service Unavailable');
+      expect(error.format()).to.equal('openai returned a server error (503). Try again later.');
+    });
+
+    it('should format default message correctly', () => {
+      const error = new ProviderError('openai', 'gpt-4', 400, { error: 'Bad Request' }, 'Bad Request');
+      expect(error.format()).to.equal('openai error (400) for model gpt-4: Bad Request');
     });
   });
 });

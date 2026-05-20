@@ -50,16 +50,29 @@ export class ContextError extends AskhalError {
 }
 
 export class ProviderError extends AskhalError {
-  constructor(providerName, modelName, httpStatus, responseData) {
+  constructor(providerName, modelName, httpStatus, responseData, message = '') {
     super(`Provider error (${httpStatus}) from ${providerName} for model ${modelName}: ${JSON.stringify(responseData)}`);
     this.name = 'ProviderError';
     this.providerName = providerName;
     this.modelName = modelName;
     this.httpStatus = httpStatus;
     this.responseData = responseData;
+    this.originalMessage = message;
   }
 
   format() {
-    return this.message;
+    if (this.httpStatus === 429) {
+      return `Rate limited (${this.httpStatus}) by ${this.providerName} for model ${this.modelName}. Wait and retry.`;
+    }
+    if (this.httpStatus === 401 || this.httpStatus === 403) {
+      return `Authentication failed (${this.httpStatus}) with ${this.providerName}. Check your ASKHAL_API_KEY.`;
+    }
+    if (this.httpStatus === 404) {
+      return `Model '${this.modelName}' not found on ${this.providerName}. Verify the model identifier.`;
+    }
+    if (this.httpStatus >= 500 && this.httpStatus < 600) {
+      return `${this.providerName} returned a server error (${this.httpStatus}). Try again later.`;
+    }
+    return `${this.providerName} error (${this.httpStatus}) for model ${this.modelName}: ${this.originalMessage}`;
   }
 }
