@@ -22,7 +22,7 @@ async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream,
     if (systemMessage)
         messages.unshift({ "role": "system", "content": systemMessage });
 
-    let openRouterRequest = {
+    let aiRequest = {
         model: aiModelName,
         messages: messages,
         stream: stream,
@@ -35,10 +35,10 @@ async function queryAI(client, aiModelName, systemMessage, userPrompt, { stream,
     };
 
     if (compress)
-        openRouterRequest.transforms = ["middle-out"];
+        aiRequest.transforms = ["middle-out"];
 
     try {
-        const result = await client.chat.completions.create(openRouterRequest);
+        const result = await client.chat.completions.create(aiRequest);
 
         log.info('');
         if (stream) {

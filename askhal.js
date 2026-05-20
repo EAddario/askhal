@@ -2,6 +2,7 @@ import { processCLIArguments } from './cli.js';
 import { checkEnvAPIKey } from './env.js';
 import { log } from './log.js';
 import { run } from './run.js';
+import { resolveProvider } from './providers.js';
 import OpenAI from 'openai';
 
 async function main() {
@@ -13,16 +14,15 @@ async function main() {
     const user = program.opts().user;
     const stream = program.opts().responsive;
     const compress = program.opts().fit;
-    const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('OPENROUTER_API_KEY');
-    const baseURL = program.opts().url;
+    const providerName = program.opts().provider;
+    const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('ASKHAL_API_KEY');
+
+    const providerConfig = resolveProvider(providerName);
 
     const client = new OpenAI({
-        baseURL,
+        baseURL: providerConfig.baseURL,
         apiKey,
-        defaultHeaders: {
-            "HTTP-Referer": "https://github.com/EAddario/askhal",
-            "X-Title": "Ask HAL"
-        }
+        defaultHeaders: providerConfig.headers
     });
 
     const aiParameters = {};
@@ -38,6 +38,10 @@ async function main() {
 
 main()
     .catch((err) => {
-        log.error(`Program terminated with error code '${err.code}'\n${err.message} `);
+        if (typeof err.format === 'function') {
+            log.error(err.format());
+        } else {
+            log.error(err.message);
+        }
         process.exit(1);
     });

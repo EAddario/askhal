@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { checkEnvAPIKey } from '../env.js';
+import { ConfigError } from '../errors.js';
 
 describe('checkEnvAPIKey tests', () => {
     it('should throw an error for missing environment variable', () => {
         const envVar = 'ASKHAL_TEST_VARIABLE';
 
-        expect(() => checkEnvAPIKey(envVar)).to.throw("OpenRouter API Key not defined in environment variable");
+        expect(() => checkEnvAPIKey(envVar)).to.throw(ConfigError, "API Key not defined in environment variable ASKHAL_TEST_VARIABLE");
     });
 
     it('should return environment variable value', () => {
