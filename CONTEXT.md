@@ -13,7 +13,7 @@ The canonical identifier for a built-in provider (openrouter, openai, anthropic,
 _Avoid_: provider ID, backend name
 
 **API Key**:
-The authentication credential for the selected Provider, set via the `ASKHAL_API_KEY` environment variable or `--key` flag. A single key works across all Providers.
+The authentication credential for the selected Provider, set via the `AI_PROVIDER_KEY` environment variable or `--key` flag. A single key works across all Providers.
 _Avoid_: token, secret, password
 
 **Model**:
@@ -49,7 +49,7 @@ When enabled via `--responsive`, model output is written to stdout chunk-by-chun
 ## Example dialogue
 
 > **Dev:** "Can I use the same API key for openai and anthropic?"
-> **Domain expert:** "No — `ASKHAL_API_KEY` authenticates with whichever Provider you select via `--provider`. Each Provider expects its own credential. To switch Providers, change the key and the `--provider` flag."
+> **Domain expert:** "No — `AI_PROVIDER_KEY` authenticates with whichever Provider you select via `--provider`. Each Provider expects its own credential. To switch Providers, change the key and the `--provider` flag."
 >
 > **Dev:** "What happens if I pass a docx and a pdf as context?"
 > **Domain expert:** "Both are supported — they share the same Context Type group (office formats) and use the same Context Reader. If you tried mixing `txt` and `html`, that would fail because a single invocation uses one Context Type."

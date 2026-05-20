@@ -28,7 +28,7 @@ function processCLIArguments() {
         .name('askhal')
         .description(`Ask HAL  - Query AI models from various providers\n
            IMPORTANT: The program requires a valid API key to work.
-           The API key can be set as an environment variable named ASKHAL_API_KEY (preferred), or provided as a command
+           The API key can be set as an environment variable named AI_PROVIDER_KEY (preferred), or provided as a command
            line argument using the -k or --key option. If both are set, the command line argument will take precedence.`)
         .version(packageInfo.version, '-v, --version', "displays the program's version")
         .usage('--model <name> --user <prompt> [options]')
@@ -39,7 +39,7 @@ function processCLIArguments() {
         .option('-t, --type <extension>', 'context file type (docx, odt, odp, ods, pdf, pptx, txt, xlsx)', 'txt')
         .option('-f, --fit', "when set, it will compress prompts to fit the model's maximum context size", false)
         .option('-r, --responsive', "when set, it will stream the model's output as it's generated instead of waiting to display all at once", false)
-        .option('-p, --provider <name>', 'name of the inference provider', 'openrouter')
+        .option('-p, --provider <name>', 'One of openrouter, openai, anthropic, google, together, or deepseek', 'openrouter')
         .option('-k, --key <value>', 'valid API Key')
         .option('--temperature <value>', 'range from 0.0 to 2.0 (default 1.0)', (value) => parseNumericalValue(value, 'Temperature', 'float', 0.0, 2.0))
         .option('--topk <value>', '0 or higher (default 0)', (value) => parseNumericalValue(value, 'Top-K', 'int', 0, Number.MAX_SAFE_INTEGER))

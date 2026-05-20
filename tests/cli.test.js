@@ -15,7 +15,7 @@ describe('CLI Help Text', () => {
     const output = execSync('node askhal.js --help', { encoding: 'utf8' });
     expect(output).not.to.include('OpenRouter AI model');
     expect(output).not.to.include('OPENROUTER_API_KEY');
-    expect(output).to.include('ASKHAL_API_KEY');
+    expect(output).to.include('AI_PROVIDER_KEY');
     expect(output).to.include('Query AI models');
     expect(output).not.to.include('models available in OpenRouter');
   });
@@ -48,7 +48,7 @@ describe('CLI Arguments Parsing', () => {
     process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'http://test'];
     expect(() => processCLIArguments()).to.throw("error: unknown option '--url'");
   });
-  
+
   it('should throw ConfigError formatting for invalid provider', () => {
     try {
       execSync('node askhal.js -m model -u user -k fakekey --provider foobar', { encoding: 'utf8', stdio: 'pipe' });

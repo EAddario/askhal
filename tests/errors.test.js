@@ -26,7 +26,7 @@ describe('Error Classes', () => {
 
     it('should include remediation instructions in format()', () => {
       const error = new ConfigError('Unknown provider', 'Available providers: openai, openrouter');
-      expect(error.format()).to.equal('Unknown provider. Remediation: Available providers: openai, openrouter');
+      expect(error.format()).to.equal('Unknown provider. Available providers: openai, openrouter');
     });
   });
 
@@ -81,7 +81,7 @@ describe('Error Classes', () => {
 
     it('should format 401 message correctly', () => {
       const error = new ProviderError('openai', 'gpt-4', 401, { error: 'Unauthorized' }, 'Unauthorized');
-      expect(error.format()).to.equal('Authentication failed (401) with openai. Check your ASKHAL_API_KEY.');
+      expect(error.format()).to.equal('Authentication failed (401) with openai. Check your AI_PROVIDER_KEY.');
     });
 
     it('should format 404 message correctly', () => {

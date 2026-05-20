@@ -15,7 +15,7 @@ async function main() {
     const stream = program.opts().responsive;
     const compress = program.opts().fit;
     const providerName = program.opts().provider;
-    const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('ASKHAL_API_KEY');
+    const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('AI_PROVIDER_KEY');
 
     const providerConfig = resolveProvider(providerName);
 
