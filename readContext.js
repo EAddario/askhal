@@ -2,6 +2,7 @@ import { log } from './log.js';
 import { textContextReader } from './textContextReader.js';
 import { webContextReader } from './webContextReader.js';
 import { officeContextReader } from './officeContextReader.js';
+import { ContextError, InputError } from './errors.js';
 
 const readers = {
     txt: textContextReader,
@@ -19,8 +20,7 @@ const validContextTypes = Object.keys(readers);
 
 async function readContext(contextPath, contextType) {
     if (!validContextTypes.includes(contextType)) {
-        log.error(`'${contextType}' is not a valid file type. Only ${validContextTypes.join(', ')} are supported`);
-        throw new Error(`'${contextType}' is not a valid file type`);
+        throw new ContextError(contextPath, contextType, `unsupported type. Supported types: ${validContextTypes.join(', ')}`);
     }
 
     try {
@@ -30,7 +30,7 @@ async function readContext(contextPath, contextType) {
 
         for (const source of sources) {
             log.info(`Reading ${source.trim()}`);
-            fileContent += `${await reader(source)} `;
+            fileContent += `${await reader(source.trim())} `;
         }
 
         if (!fileContent || !fileContent.trim()) {
@@ -44,25 +44,27 @@ async function readContext(contextPath, contextType) {
 
         return fileContent.replace(/[\n\r\t]|\s+/gm, ' ').trim();
     } catch (err) {
+        if (err instanceof ContextError) throw err;
+        
+        let reason = err.message;
+
         if (err.code === 'ENOENT') {
-            log.error(`context ${contextPath} not found`);
+            reason = 'not found';
         } else if (err.code === 'EACCES') {
-            log.error(`permission denied when accessing context ${contextPath}`);
+            reason = 'permission denied. Please check your file permissions';
         } else if (err.code === 'EEMPTY') {
-            log.error(`context ${contextPath} is empty`);
+            reason = 'empty';
         } else if (err.code === 'ECONNABORTED' || err.code === 'ETIMEDOUT') {
-            log.error(`connection timeout getting context ${contextPath}`);
+            reason = 'connection timeout';
         } else if (err.code === 'ERR_NETWORK') {
-            log.error(`network error getting context ${contextPath}`);
+            reason = 'network error';
         } else if (err.code === 'ERR_BAD_RESPONSE') {
-            log.error(`context response cannot be parsed properly from ${contextPath}`);
+            reason = 'cannot parse response';
         } else if (err.code === 'ERR_BAD_REQUEST' || err.code === 'ERR_INVALID_URL') {
-            log.error(`context path ${contextPath} is not valid`);
-        } else {
-            log.error(`cannot read context ${contextPath}`);
+            reason = 'invalid path or URL';
         }
 
-        throw err;
+        throw new ContextError(contextPath, contextType, reason);
     }
 }
 

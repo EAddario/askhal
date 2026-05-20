@@ -1,6 +1,7 @@
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { readContext } from '../readContext.js';
+import { ContextError } from '../errors.js';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -50,46 +51,42 @@ describe('readContext() tests', () => {
     it('should throw an error for invalid file type', async () => {
         const filePath = './tests/assets/file.invalid';
         const fileType = 'invalid';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("'invalid' is not a valid file type");
-
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "unsupported type. Supported types:");
     });
 
     it('should throw an error for invalid Excel file', async () => {
         const filePath = './tests/assets/invalid.xlsx';
         const fileType = 'xlsx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for invalid PowerPoint file', async () => {
         const filePath = './tests/assets/invalid.pptx';
         const fileType = 'pptx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for invalid Word file', async () => {
         const filePath = './tests/assets/invalid.docx';
         const fileType = 'docx';
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("[OfficeParser]: invalid zip data");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "[OfficeParser]: invalid zip data");
     });
 
     it('should throw an error for file not found', async () => {
         const filePath = './tests/assets/nonexistent.txt';
         const fileType = 'txt';
-        expect(readContext(filePath, fileType)).to.be.rejectedWith(Error);
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("ENOENT: no such file or directory");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "not found");
     });
 
     it('should throw an error for permission denied', async () => {
         const filePath = './tests/assets/access_denied.txt';
         const fileType = 'txt';
-        expect(readContext(filePath, fileType)).to.be.rejectedWith(Error);
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("EACCES: permission denied");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "permission denied. Please check your file permissions");
     });
 
     it('should throw an error for file is empty', async () => {
         const filePath = './tests/assets/empty.txt';
         const fileType = 'txt';
-        expect(readContext(filePath, fileType)).to.be.rejectedWith(Error);
-        return expect(readContext(filePath, fileType)).to.be.rejectedWith("context ./tests/assets/empty.txt is empty");
+        return expect(readContext(filePath, fileType)).to.be.rejectedWith(ContextError, "empty");
     });
 });
