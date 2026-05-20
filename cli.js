@@ -25,21 +25,21 @@ function parseNumericalValue(value, name, type, min, max) {
 function processCLIArguments() {
     program
         .name('askhal')
-        .description(`Ask HAL  - Query AI models available in OpenRouter (https://openrouter.ai/)\n
-           IMPORTANT: The program requires a valid OpenRouter API key to work.
-           The API key can be set as an environment variable named OPENROUTER_API_KEY (preferred), or provided as a command
+        .description(`Ask HAL  - Query AI models from various providers\n
+           IMPORTANT: The program requires a valid API key to work.
+           The API key can be set as an environment variable named ASKHAL_API_KEY (preferred), or provided as a command
            line argument using the -k or --key option. If both are set, the command line argument will take precedence.`)
         .version(packageInfo.version, '-v, --version', "displays the program's version")
         .usage('--model <name> --user <prompt> [options]')
-        .requiredOption('-m, --model <name>', 'name of the OpenRouter AI model to use (required)')
+        .requiredOption('-m, --model <name>', 'name of the AI model to use (required)')
         .requiredOption('-u, --user <prompt>', 'user prompt (required)')
         .option('-s, --system <prompt>', "instructions to guide the model's behavior, set the tone, or specify the desired output")
         .option('-c, --context <file>', "location of a file with additional context. It will be appended at the end of the system's prompt")
         .option('-t, --type <extension>', 'context file type (docx, odt, odp, ods, pdf, pptx, txt, xlsx)', 'txt')
         .option('-f, --fit', "when set, it will compress prompts to fit the model's maximum context size", false)
         .option('-r, --responsive', "when set, it will stream the model's output as it's generated instead of waiting to display all at once", false)
-        .option('-p, --url <value>', 'URL for an OpenAPI-compatible inference provider', 'https://openrouter.ai/api/v1')
-        .option('-k, --key <value>', 'valid OpenRouter API Key')
+        .option('-p, --provider <name>', 'name of the inference provider', 'openrouter')
+        .option('-k, --key <value>', 'valid API Key')
         .option('--temperature <value>', 'range from 0.0 to 2.0 (default 1.0)', (value) => parseNumericalValue(value, 'Temperature', 'float', 0.0, 2.0))
         .option('--topk <value>', '0 or higher (default 0)', (value) => parseNumericalValue(value, 'Top-K', 'int', 0, Number.MAX_SAFE_INTEGER))
         .option('--topp <value>', 'range from 0.0 to 1.0 (default 1.0)', (value) => parseNumericalValue(value, 'Top-P', 'float', 0.0, 1.0))
