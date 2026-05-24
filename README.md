@@ -130,15 +130,15 @@ node askhal.js --model "openrouter/auto" --user "How many pounds are in a kilogr
 Fetch context from a URL (e.g., `www.example.com`) to be included in the system prompt:
 
 ```sh
-node askhal.js --model "openrouter/auto" --user "Critique the webpage and provide suggestions to improve." --system "You are a web designer reviewing the following webpage:" --context "www.example.com" --type "html"
+node askhal.js --model "openrouter/auto" --user "Critique the webpage and provide suggestions to improve." --system "You are a helpful web designer assistant tasked with the review and evaluation of webpages" --context "www.example.com" --type "html"
 ```
 
 ### Query with Additional Context from multiple Files
 
-Append context from several files to be included in the system prompt:
+Append context from several files to be included in the user prompt:
 
 ```sh
-node askhal.js --model "openrouter/auto" --user "Summarize the research and conclusion." --system "You are a researcher reviewing the following white papers:" --context "research.pdf, ./data/experiment.pdf, ./final/conclusion.pdf" --type "pdf"
+node askhal.js --model "openrouter/auto" --user "Summarize the research and conclusion." --system "You are a helpful research assistant tasked with the review and evaluation of white papers" --context "research.pdf, ./data/experiment.pdf, ./final/conclusion.pdf" --type "pdf"
 ```
 
 ### Modify AI Behavior with Parameters
