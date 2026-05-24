@@ -30,6 +30,15 @@ export class InputError extends AskhalError {
     this.validRange = validRange;
   }
 
+  static messageOnly(msg) {
+    const error = new InputError();
+    error.message = msg;
+    error.paramName = undefined;
+    error.value = undefined;
+    error.validRange = undefined;
+    return error;
+  }
+
   format() {
     return this.message;
   }

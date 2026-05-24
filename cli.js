@@ -40,6 +40,7 @@ function processCLIArguments() {
         .option('-f, --fit', "when set, it will compress prompts to fit the model's maximum context size", false)
         .option('-r, --responsive', "when set, it will stream the model's output as it's generated instead of waiting to display all at once", false)
         .option('-p, --provider <name>', 'One of openrouter, openai, anthropic, google, together, or deepseek', 'openrouter')
+        .option('--url <url>', 'custom endpoint URL for any OpenAI-compatible API (cannot be used with --provider)')
         .option('-k, --key <value>', 'valid API Key')
         .option('--temperature <value>', 'range from 0.0 to 2.0 (default 1.0)', (value) => parseNumericalValue(value, 'Temperature', 'float', 0.0, 2.0))
         .option('--topk <value>', '0 or higher (default 0)', (value) => parseNumericalValue(value, 'Top-K', 'int', 0, Number.MAX_SAFE_INTEGER))
@@ -58,6 +59,18 @@ function processCLIArguments() {
         }
 
         program.parse(process.argv);
+
+        const opts = program.opts();
+        if (opts.url) {
+            if (program.getOptionValueSource('provider') === 'cli') {
+                throw InputError.messageOnly("Cannot use --url and --provider together. The --url flag is for custom endpoints (cannot be used with --provider).");
+            }
+            try {
+                new URL(opts.url);
+            } catch (err) {
+                throw new InputError('url', opts.url, 'a valid URL');
+            }
+        }
     } catch (err) {
         if (err.code === 'commander.helpDisplayed' || err.code === 'commander.help') {
             process.exit(0);

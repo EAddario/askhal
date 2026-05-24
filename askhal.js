@@ -14,15 +14,26 @@ async function main() {
     const user = program.opts().user;
     const stream = program.opts().responsive;
     const compress = program.opts().fit;
-    const providerName = program.opts().provider;
+    let providerName = program.opts().provider;
     const apiKey = (program.opts().key) ? program.opts().key : checkEnvAPIKey('AI_PROVIDER_KEY');
 
-    const providerConfig = resolveProvider(providerName);
+    let baseURL;
+    let headers;
+
+    if (program.opts().url) {
+        providerName = 'custom';
+        baseURL = program.opts().url;
+        headers = {};
+    } else {
+        const providerConfig = resolveProvider(providerName);
+        baseURL = providerConfig.baseURL;
+        headers = providerConfig.headers;
+    }
 
     const client = new OpenAI({
-        baseURL: providerConfig.baseURL,
+        baseURL,
         apiKey,
-        defaultHeaders: providerConfig.headers
+        defaultHeaders: headers
     });
 
     const aiParameters = {};

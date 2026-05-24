@@ -8,7 +8,7 @@ describe('CLI Help Text', () => {
     const output = execSync('node askhal.js --help', { encoding: 'utf8' });
     expect(output).to.include('--provider');
     expect(output).to.include('default: "openrouter"');
-    expect(output).not.to.include('--url');
+    expect(output).to.include('--url');
   });
 
   it('should use provider-agnostic language', () => {
@@ -38,15 +38,54 @@ describe('CLI Arguments Parsing', () => {
     expect(program.opts().provider).to.equal('openai');
   });
 
+  describe('--url flag', () => {
+    it('should set url when --url is passed', () => {
+      process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'http://localhost:11434/v1'];
+      const program = processCLIArguments();
+      expect(program.opts().url).to.equal('http://localhost:11434/v1');
+    });
+
+    it('should not be present in opts when not passed', () => {
+      process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user'];
+      const program = processCLIArguments();
+      expect(program.opts().url).to.be.undefined;
+    });
+
+    it('should work fine with --url and default provider', () => {
+      process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'http://localhost:11434/v1'];
+      const program = processCLIArguments();
+      expect(program.opts().url).to.equal('http://localhost:11434/v1');
+      expect(program.opts().provider).to.equal('openrouter');
+    });
+
+    it('should throw InputError when --url is malformed', () => {
+      process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'not-a-url'];
+      expect(() => processCLIArguments()).to.throw(InputError);
+      try {
+        processCLIArguments();
+      } catch (err) {
+        expect(err.name).to.equal('InputError');
+        expect(err.format()).to.include('Invalid url: not-a-url');
+      }
+    });
+
+    it('should throw InputError with messageOnly when both --url and --provider are explicit', () => {
+      process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'http://localhost:11434/v1', '--provider', 'openai'];
+      expect(() => processCLIArguments()).to.throw(InputError);
+      try {
+        processCLIArguments();
+      } catch (err) {
+        expect(err.name).to.equal('InputError');
+        expect(err.paramName).to.be.undefined;
+        expect(err.format()).to.include('cannot be used with --provider');
+      }
+    });
+  });
+
   it('should default to openrouter when no --provider is passed', () => {
     process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user'];
     const program = processCLIArguments();
     expect(program.opts().provider).to.equal('openrouter');
-  });
-
-  it('should not recognize --url', () => {
-    process.argv = ['node', 'askhal.js', '-m', 'model', '-u', 'user', '--url', 'http://test'];
-    expect(() => processCLIArguments()).to.throw("error: unknown option '--url'");
   });
 
   it('should throw ConfigError formatting for invalid provider', () => {
@@ -58,5 +97,17 @@ describe('CLI Arguments Parsing', () => {
       expect(output).to.include('Unknown provider: foobar');
       expect(output).to.include('Valid providers are:');
     }
+  });
+
+  describe('Custom Endpoint wiring', () => {
+    it('should bypass resolveProvider and format ProviderError as "custom" when --url is set', () => {
+      try {
+        execSync('node askhal.js -m test -u test -k test --url http://127.0.0.1:0/v1', { encoding: 'utf8', stdio: 'pipe' });
+        expect.fail('Should have failed');
+      } catch (error) {
+        const output = error.stderr || error.message || error.stdout;
+        expect(output).to.include('custom returned a server error');
+      }
+    });
   });
 });

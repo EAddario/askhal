@@ -44,6 +44,19 @@ describe('Error Classes', () => {
       const error = new InputError('temperature', 2.5, '0 to 2');
       expect(error.format()).to.equal('Invalid temperature: 2.5. Must be 0 to 2.');
     });
+
+    describe('messageOnly factory', () => {
+      it('should create an InputError with raw message and undefined params', () => {
+        const error = InputError.messageOnly('raw message here');
+        expect(error).to.be.an.instanceOf(InputError);
+        expect(error.name).to.equal('InputError');
+        expect(error.message).to.equal('raw message here');
+        expect(error.paramName).to.be.undefined;
+        expect(error.value).to.be.undefined;
+        expect(error.validRange).to.be.undefined;
+        expect(error.format()).to.equal('raw message here');
+      });
+    });
   });
 
   describe('ContextError', () => {
