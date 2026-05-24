@@ -9,11 +9,15 @@ An AI inference service that exposes an OpenAI-compatible chat completions API.
 _Avoid_: vendor, backend, endpoint
 
 **Provider Name**:
-The canonical identifier for a built-in provider (openrouter, openai, anthropic, groq, together, deepseek).
+The canonical identifier for a built-in Provider (openrouter, openai, anthropic, groq, together, deepseek).
 _Avoid_: provider ID, backend name
 
+**Custom Endpoint**:
+A user-supplied URL pointing to any OpenAI-compatible chat completions API, specified via the `--url` flag. Bypasses the built-in Provider registry entirely. Mutually exclusive with `--provider`.
+_Avoid_: custom provider, ad-hoc provider
+
 **API Key**:
-The authentication credential for the selected Provider, set via the `AI_PROVIDER_KEY` environment variable or `--key` flag. A single key works across all Providers.
+The authentication credential for the selected Provider or Custom Endpoint, set via the `AI_PROVIDER_KEY` environment variable or `--key` flag.
 _Avoid_: token, secret, password
 
 **Model**:
@@ -41,15 +45,19 @@ When enabled via `--responsive`, model output is written to stdout chunk-by-chun
 ## Relationships
 
 - A **Provider** exposes one or more **Models**
+- A **Custom Endpoint** bypasses the **Provider** registry (mutually exclusive with `--provider`)
 - A **Context Source** has exactly one **Context Type**
 - A **Context Reader** handles one or more related **Context Types**
-- An **API Key** authenticates with exactly one **Provider** per invocation
+- An **API Key** authenticates with either a **Provider** or a **Custom Endpoint** per invocation
 - **Context** is appended to the user prompt (not the system prompt) before querying the **Model**
 
 ## Example dialogue
 
 > **Dev:** "Can I use the same API key for openai and anthropic?"
 > **Domain expert:** "No — `AI_PROVIDER_KEY` authenticates with whichever Provider you select via `--provider`. Each Provider expects its own credential. To switch Providers, change the key and the `--provider` flag."
+>
+> **Dev:** "Can I use --url with --provider?"
+> **Domain expert:** "No — they're mutually exclusive. Use `--provider` for a built-in Provider or `--url` for a Custom Endpoint, not both."
 >
 > **Dev:** "What happens if I pass a docx and a pdf as context?"
 > **Domain expert:** "Both are supported — they share the same Context Type group (office formats) and use the same Context Reader. If you tried mixing `txt` and `html`, that would fail because a single invocation uses one Context Type."
